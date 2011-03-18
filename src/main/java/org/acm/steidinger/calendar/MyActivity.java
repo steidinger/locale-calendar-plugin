@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,19 +25,21 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        TextView textView = (TextView) findViewById(R.id.mainText);
+        ListView calendarListView = (ListView) findViewById(R.id.calendarList);
         List<CalendarInfo> calendars = getCalendars(this);
-        textView.append("\n");
-        for(CalendarInfo cal : calendars) {
-            textView.append(cal.toString());
-            textView.append("\n");
+        String[] calendarStrings = new String[calendars.size()];
+        for (int i = 0; i < calendars.size(); i++) {
+            calendarStrings[i] = calendars.get(i).toString();
         }
+        calendarListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, calendarStrings));
+/*
         List<CalendarEntry> entries = getNextCalendarEntries(this);
         textView.append("\n\nUpcoming appointments:\n\n");
         for (CalendarEntry entry : entries) {
             textView.append(entry.toString());
             textView.append("\n");
         }
+*/
     }
 
     public static List<CalendarInfo> getCalendars(Context context) {
