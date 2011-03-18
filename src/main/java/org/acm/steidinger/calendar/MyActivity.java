@@ -24,10 +24,10 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView textView = (TextView) findViewById(R.id.mainText);
-        List<String> names = getCalendars(this);
+        List<CalendarInfo> calendars = getCalendars(this);
         textView.append("\n");
-        for(String cal : names) {
-            textView.append(cal);
+        for(CalendarInfo cal : calendars) {
+            textView.append(cal.toString());
             textView.append("\n");
         }
         List<CalendarEntry> entries = getNextCalendarEntries(this);
@@ -38,24 +38,16 @@ public class MyActivity extends Activity {
         }
     }
 
-    public static List<String> getCalendars(Context context) {
-        List<String> calendarNames = new ArrayList<String>();
+    public static List<CalendarInfo> getCalendars(Context context) {
+        List<CalendarInfo> calendars = new ArrayList<CalendarInfo>();
         final Cursor cursor = context.getContentResolver().query(Uri.parse("content://calendar/calendars"),
                 (new String[]{"_id", "displayName", "selected"}), null, null, null);
-        if (cursor == null) {
-            calendarNames.add("-- no calendar provider found --");
-        }
-        else {
+        if (cursor != null) {
             while (cursor.moveToNext()) {
-                final String name = cursor.getString(1);
-                if (!cursor.getString(2).equals("0")) {
-                    calendarNames.add(name);
-                } else {
-                    calendarNames.add("(" + name + ")");
-                }
+                calendars.add(new CalendarInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2)));
             }
         }
-        return calendarNames;
+        return calendars;
     }
 
     public static List<CalendarEntry> getNextCalendarEntries(Context context) {
