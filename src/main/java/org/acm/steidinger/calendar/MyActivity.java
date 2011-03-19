@@ -8,10 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.View;
+import android.widget.*;
+import org.acm.steidinger.calendar.localePlugin.Constants;
 import org.acm.steidinger.calendar.localePlugin.R;
 
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MyActivity extends Activity {
+    private Spinner calendarSpinner;
+
     /**
      * Called when the activity is first created.
      */
@@ -34,17 +36,24 @@ public class MyActivity extends Activity {
             calendarStrings[i] = calendars.get(i).toString();
         }
         calendarListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, calendarStrings));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, calendarStrings);
+        ArrayAdapter<CalendarInfo> adapter = new ArrayAdapter<CalendarInfo>(this, android.R.layout.simple_spinner_item,
+                calendars.toArray(new CalendarInfo[calendars.size()]));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ((Spinner) findViewById(R.id.calendarSpinner)).setAdapter(adapter);
-/*
-        List<CalendarEntry> entries = getNextCalendarEntries(this);
-        textView.append("\n\nUpcoming appointments:\n\n");
-        for (CalendarEntry entry : entries) {
-            textView.append(entry.toString());
-            textView.append("\n");
+        calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
+        calendarSpinner.setAdapter(adapter);
+    }
+
+    @Override
+    public void finish() {
+        if (calendarSpinner != null) {
+            CalendarInfo info = (CalendarInfo) calendarSpinner.getSelectedItem();
+            if (info == null) {
+                Log.d(Constants.LOG_TAG, "No calendar selected");
+            } else {
+                Log.d(Constants.LOG_TAG, "Calendar selected: " + info);
+            }
         }
-*/
+        super.finish();
     }
 
     public static List<CalendarInfo> getCalendars(Context context) {
