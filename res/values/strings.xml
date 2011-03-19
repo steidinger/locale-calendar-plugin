@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Calendar Locale Plugin</string>
+    <string name="plugin_name">Calendar Condition</string>
     <string name="calendar_prompt">Choose Calendar</string>
     <string name="setting_name">Calendar</string>
     <string name="on">booked</string>

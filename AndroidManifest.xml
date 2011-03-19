@@ -5,7 +5,7 @@
       android:versionName="1.0">
     <uses-permission android:name="android.permission.READ_CALENDAR" />
 
-    <application android:label="@string/app_name" android:debuggable="true">
+    <application android:label="@string/app_name" android:debuggable="true" android:icon="@drawable/calendar">
         <activity android:name="org.acm.steidinger.calendar.MyActivity"
                   android:label="@string/app_name">
             <intent-filter>
