@@ -11,5 +11,9 @@
     />
 -->
     <ListView android:id="@+id/calendarList" android:layout_height="wrap_content" android:layout_width="fill_parent" />
+    <Spinner android:id="@+id/calendarSpinner"
+             android:layout_height="fill_parent"
+             android:layout_width="fill_parent"
+             android:prompt="@string/calendar_prompt"/>
 </LinearLayout>
 

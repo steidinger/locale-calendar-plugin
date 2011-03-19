@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="org.acm.steidinger.calendar"
+      package="org.acm.steidinger.calendar.localePlugin"
       android:versionCode="1"
       android:versionName="1.0">
     <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application android:label="@string/app_name" android:debuggable="true">
-        <activity android:name=".MyActivity"
+        <activity android:name="org.acm.steidinger.calendar.MyActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+                android:name="org.acm.steidinger.calendar.localePlugin.EditConditionActivity"
+                android:label="@string/setting_name"
+                android:icon="@drawable/calendar"
+                android:exported="true" >
+                <intent-filter>
+                    <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
+                </intent-filter>
+          </activity>
+          <!-- Listen for the "query" action-->
+          <receiver android:name="org.acm.steidinger.calendar.localePlugin.QueryConditionReceiver" >
+              <intent-filter>
+                  <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+              </intent-filter>
+          </receiver>
     </application>
 </manifest> 
