@@ -1,9 +1,9 @@
 package org.acm.steidinger.calendar;
 
 public class CalendarInfo {
-    String id;
-    String name;
-    boolean selected;
+    public String id;
+    public String name;
+    public boolean selected;
 
     public CalendarInfo(String id, String name, String selected) {
         this.id = id;

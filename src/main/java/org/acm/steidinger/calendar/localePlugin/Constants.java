@@ -39,9 +39,11 @@ public final class Constants
     /**
      * TYPE: {@code boolean}
      * <p>
-     * True means display is on. False means off.
+     * True means calendar must contain an appointment.
      */
     static final String BUNDLE_EXTRA_CALENDAR_STATE = "org.acm.steidinger.calendar.localePlugin.extra.STATE"; //$NON-NLS-1$
+
+    static final String BUNDLE_EXTRA_CALENDAR_ID = "org.acm.steidinger.calendar.localePlugin.extra.ID";
 
     /**
      * Enables invariant checking within the app. Typically, this can be left enabled. Disabling it may slightly improve

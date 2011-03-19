@@ -1,9 +1,6 @@
 package org.acm.steidinger.calendar.localePlugin;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,29 +8,31 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.twofortyfouram.locale.BreadCrumber;
 import com.twofortyfouram.locale.SharedResources;
+import org.acm.steidinger.calendar.CalendarInfo;
+import org.acm.steidinger.calendar.CalendarProvider;
+
+import java.util.List;
 
 public class EditConditionActivity extends Activity {
     /**
      * Position in the spinner
      */
-    private static final int POSITION_ON = 1;
+    private static final int POSITION_FREE = 1;
 
     /**
      * Position in the spinner
      */
-    private static final int POSITION_OFF = 0;
+    private static final int POSITION_BOOKED = 0;
 
     /**
      * Dialog ID for displaying the license agreement.
@@ -72,42 +71,8 @@ public class EditConditionActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*
-         * This is a hack to work around a custom serializable classloader attack. This check must come before any of the Intent
-         * extras are examined.
-         */
-        try {
-            final Bundle extras = getIntent().getExtras();
-
-            if (extras != null) {
-                // if a custom serializable exists, this will throw an exception
-                extras.containsKey(null);
-            }
-        } catch (final Exception e) {
-            Log.e(Constants.LOG_TAG, "Custom serializable attack detected; do not send custom Serializable subclasses to this Activity", e); //$NON-NLS-1$
-            getIntent().replaceExtras((Bundle) null);
-        }
-
-        /*
-         * Note: This is a hack to work around a custom serializable classloader attack via the EXTRA_BUNDLE. This check must come
-         * before any of the Bundle extras are examined.
-         */
-        try {
-            // if a custom serializable exists, this will throw an exception
-            final Bundle extras = getIntent().getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
-
-            if (extras != null) {
-                // if a custom serializable exists, this will throw an exception
-                extras.containsKey(null);
-            }
-        } catch (final Exception e) {
-            Log.e(Constants.LOG_TAG, "Custom serializable attack detected; do not send custom Serializable subclasses to this Activity", e); //$NON-NLS-1$
-            getIntent().putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, (Bundle) null);
-        }
-
+        preventCustomSerializableAttack(getIntent());
         setContentView(R.layout.main);
-
         setTitle(BreadCrumber.generateBreadcrumb(getApplicationContext(), getIntent(), getString(R.string.plugin_name)));
 
         /*
@@ -116,25 +81,26 @@ public class EditConditionActivity extends Activity {
          * allow the use of default values, while also permitting the host APK to also customize the look-and-feel of the UI frame
          */
         final Drawable borderDrawable = SharedResources.getDrawableResource(getPackageManager(), getCallingPackage(), SharedResources.DRAWABLE_LOCALE_BORDER);
-/*
         if (borderDrawable == null) {
             // this is ugly, but it maintains compatibility
-            ((FrameLayout) findViewById(R.id.frame)).setBackgroundColor(Color.WHITE);
+            findViewById(R.id.frame).setBackgroundColor(Color.WHITE);
         } else {
-            ((FrameLayout) findViewById(R.id.frame)).setBackgroundDrawable(borderDrawable);
+            findViewById(R.id.frame).setBackgroundDrawable(borderDrawable);
         }
-*/
 
-        /*
-         * populate the spinner
-         */
-        final Spinner spinner = ((Spinner) findViewById(R.id.calendarSpinner));
+        List<CalendarInfo> calendars = CalendarProvider.getCalendars(this);
+        ArrayAdapter<CalendarInfo> calendarAdapter = new ArrayAdapter<CalendarInfo>(this, android.R.layout.simple_spinner_item,
+                calendars.toArray(new CalendarInfo[calendars.size()]));
+        calendarAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
+        calendarSpinner.setAdapter(calendarAdapter);
+        final Spinner stateSpinner = ((Spinner) findViewById(R.id.calendarStateSpinner));
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]
                 {
-                        getString(R.string.off),
-                        getString(R.string.on)});
+                        getString(R.string.booked),
+                        getString(R.string.free)});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        stateSpinner.setAdapter(adapter);
 
         /*
          * if savedInstanceState == null, then then this is a new Activity instance and a check for EXTRA_BUNDLE is needed
@@ -146,9 +112,18 @@ public class EditConditionActivity extends Activity {
              * the forwardedBundle would be null if this was a new condition
              */
             if (forwardedBundle != null) {
-                String selectedCalendarID = forwardedBundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_STATE);
+                String selectedCalendarID = forwardedBundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID);
                 if (selectedCalendarID != null) {
-                } else {
+                    for (int i = 0; i < calendars.size(); i++) {
+                        if (selectedCalendarID.equals(calendars.get(i).id)) {
+                            calendarSpinner.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+                Boolean booked = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE);
+                if (booked == null || booked) {
+                    stateSpinner.setSelection(POSITION_BOOKED);
                 }
             }
         }
@@ -158,44 +133,39 @@ public class EditConditionActivity extends Activity {
          */
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void onResume() {
+    public static void preventCustomSerializableAttack(final Intent intent) {
         /*
-         * Reading SharedPreferences may involve a disk read, so this is performed on a background thread. Note that it might be
-         * possible for the user to do something in the UI before the license is agreed to (since the dialog is displayed at some
-         * time in the future after the disk read completes), however this really isn't worth worrying about.
+         * This is a hack to work around a custom serializable classloader attack. This check must come before any of the Intent
+         * extras are examined.
          */
-        mPreferenceTask = new AsyncTask<SharedPreferences, Void, Boolean>() {
+        try {
+            final Bundle extras = intent.getExtras();
 
-            @Override
-            protected Boolean doInBackground(final SharedPreferences... params) {
-                return params[0].getBoolean(Constants.PREFERENCE_BOOLEAN_IS_LICENSE_AGREED, false);
+            if (extras != null) {
+                // if a custom serializable exists, this will throw an exception
+                extras.containsKey(null);
             }
-
-            @Override
-            protected void onPostExecute(final Boolean result) {
-                if (!result) {
-                    showDialog(DIALOG_LICENSE);
-                }
-            }
-        };
-
-        mPreferenceTask.execute(getPreferences(MODE_PRIVATE));
-
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+        } catch (final Exception e) {
+            Log.e(Constants.LOG_TAG, "Custom serializable attack detected; do not send custom Serializable subclasses to this Activity", e); //$NON-NLS-1$
+            intent.replaceExtras((Bundle) null);
+        }
 
         /*
-         * The task must be canceled, otherwise the call to showDialog will throw an exception if the Activity has finished
+         * Note: This is a hack to work around a custom serializable classloader attack via the EXTRA_BUNDLE. This check must come
+         * before any of the Bundle extras are examined.
          */
-        mPreferenceTask.cancel(true);
+        try {
+            // if a custom serializable exists, this will throw an exception
+            final Bundle extras = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
+
+            if (extras != null) {
+                // if a custom serializable exists, this will throw an exception
+                extras.containsKey(null);
+            }
+        } catch (final Exception e) {
+            Log.e(Constants.LOG_TAG, "Custom serializable attack detected; do not send custom Serializable subclasses to this Activity", e); //$NON-NLS-1$
+            intent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, (Bundle) null);
+        }
     }
 
     /**
@@ -206,41 +176,37 @@ public class EditConditionActivity extends Activity {
         if (mIsCancelled) {
             setResult(RESULT_CANCELED);
         } else {
-            final Spinner spinner = ((Spinner) findViewById(R.id.calendarSpinner));
-
-            /*
-             * This is the return Intent, into which we'll put all the required extras
-             */
+            final Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
+            final Spinner stateSpinner = (Spinner) findViewById(R.id.calendarStateSpinner);
             final Intent returnIntent = new Intent();
 
-            /*
-             * This extra is the data to ourselves: either for the Activity or the BroadcastReceiver. Note that anything placed in
-             * this Bundle must be available to Locale's class loader. So storing String, int, and other standard objects will
-             * work just fine. However Parcelable objects must also be Serializable. And Serializable objects must be standard
-             * Java objects (e.g. a custom object private to this plug-in cannot be stored in the Bundle, as Locale's classloader
-             * will not recognize it).
-             */
             final Bundle storeAndForwardExtras = new Bundle();
-
-            switch (spinner.getSelectedItemPosition()) {
-/*
-                case POSITION_OFF: {
-                    storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_BOOLEAN_STATE, false);
-                    returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, getString(R.string.off));
+            String blurb;
+            CalendarInfo info = (CalendarInfo) calendarSpinner.getSelectedItem();
+            if (info != null  && info.id != null) {
+                blurb = info.name + ": ";
+                storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_CALENDAR_ID, info.id);
+            }
+            else {
+                blurb = "-";
+            }
+            switch (stateSpinner.getSelectedItemPosition()) {
+                case POSITION_FREE: {
+                    storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, false);
+                    blurb += getString(R.string.free);
                     break;
                 }
-                case POSITION_ON: {
-                    storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_BOOLEAN_STATE, true);
-                    returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, getString(R.string.on));
+                case POSITION_BOOKED: {
+                    storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
+                    blurb += getString(R.string.booked);
                     break;
                 }
-*/
                 default: {
                     Log.w(Constants.LOG_TAG, "Fell through switch statement"); //$NON-NLS-1$
                     break;
                 }
             }
-
+            returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb);
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
 
             setResult(RESULT_OK, returnIntent);

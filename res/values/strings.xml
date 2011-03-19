@@ -4,6 +4,6 @@
     <string name="plugin_name">Calendar Condition</string>
     <string name="calendar_prompt">Choose Calendar</string>
     <string name="setting_name">Calendar</string>
-    <string name="on">booked</string>
-    <string name="off">free</string>
+    <string name="booked">booked</string>
+    <string name="free">free</string>
 </resources>

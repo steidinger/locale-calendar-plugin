@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<!--
-<TextView android:id="@+id/mainText"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"
-    />
--->
-    <ListView android:id="@+id/calendarList" android:layout_height="wrap_content" android:layout_width="fill_parent" />
-    <Spinner android:id="@+id/calendarSpinner"
-             android:layout_height="fill_parent"
-             android:layout_width="fill_parent"
-             android:prompt="@string/calendar_prompt"/>
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+        >
+    <FrameLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:id="@+id/frame"
+            >
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                >
+        <Spinner android:id="@+id/calendarSpinner"
+                 android:drawSelectorOnTop="true"
+                 android:layout_height="wrap_content"
+                 android:layout_width="fill_parent"
+                 android:prompt="@string/calendar_prompt"/>
+        <Spinner android:id="@+id/calendarStateSpinner"
+                 android:drawSelectorOnTop="true"
+                 android:layout_height="wrap_content"
+                 android:layout_width="fill_parent"
+                 android:prompt="@string/calendar_prompt"/>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
 
