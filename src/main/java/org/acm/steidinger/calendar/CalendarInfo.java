@@ -13,6 +13,6 @@ public class CalendarInfo {
 
     @Override
     public String toString() {
-        return name + " (@" + id + ")" + (selected ? " - enabled" : " - disabled");
+        return name;
     }
 }
