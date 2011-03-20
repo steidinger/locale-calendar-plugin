@@ -15,8 +15,8 @@ package com.twofortyfouram.locale;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import org.acm.steidinger.calendar.localePlugin.R;
 
-import com.twofortyfouram.locale.platform.R;
 
 /**
  * Utility class to generate a breadcrumb title string for {@code Activity} instances in <i>Locale</i>.

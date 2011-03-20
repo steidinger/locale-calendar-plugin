@@ -30,8 +30,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.acm.steidinger.calendar.localePlugin.R;
 
-import com.twofortyfouram.locale.platform.R;
 
 /**
  * Provides a simple dialog UI for the user to understand what a plug-in is when tapping on the "open" button from the Android

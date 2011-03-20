@@ -2,12 +2,10 @@ package org.acm.steidinger.calendar.localePlugin;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,14 +38,14 @@ public class EditConditionActivity extends Activity {
     private static final int DIALOG_LICENSE = 0;
 
     /**
-     * Help URL, used for the {@link com.twofortyfouram.locale.platform.R.id#twofortyfouram_locale_menu_help} menu item.
+     * Help URL, used for the {@link R.id#twofortyfouram_locale_menu_help} menu item.
      */
     // TODO: Place a real help URL here
     private static final String HELP_URL = "http://www.yourcompany.com/yourhelp.html"; //$NON-NLS-1$
 
     /**
      * Flag boolean that can only be set to true via the "Don't Save"
-     * {@link com.twofortyfouram.locale.platform.R.id#twofortyfouram_locale_menu_dontsave} menu item in
+     * {@link R.id#twofortyfouram_locale_menu_dontsave} menu item in
      * {@link #onMenuItemSelected(int, MenuItem)}.
      * <p/>
      * If true, then this {@code Activity} should return {@link Activity#RESULT_CANCELED} in {@link #finish()}.
@@ -57,13 +55,7 @@ public class EditConditionActivity extends Activity {
      * <p/>
      * There is no need to save/restore this field's state when the {@code Activity} is paused.
      */
-    private boolean mIsCancelled = false;
-
-    /**
-     * AsyncTask to read SharedPreferences on a background thread. This is started in {@link #onResume()} and stopped in
-     * {@link #onPause()}.
-     */
-    private AsyncTask<SharedPreferences, Void, Boolean> mPreferenceTask;
+    private boolean isCancelled = false;
 
     /**
      * {@inheritDoc}
@@ -73,7 +65,9 @@ public class EditConditionActivity extends Activity {
         super.onCreate(savedInstanceState);
         preventCustomSerializableAttack(getIntent());
         setContentView(R.layout.main);
-        setTitle(BreadCrumber.generateBreadcrumb(getApplicationContext(), getIntent(), getString(R.string.plugin_name)));
+        CharSequence title = BreadCrumber.generateBreadcrumb(getApplicationContext(), getIntent(), getString(R.string.plugin_name));
+        Log.d(Constants.LOG_TAG, "title=" + title);
+        setTitle(title);
 
         /*
          * Load the background frame from the host APK. Normally, the host APK should provide all of the necessary resources.
@@ -81,6 +75,7 @@ public class EditConditionActivity extends Activity {
          * allow the use of default values, while also permitting the host APK to also customize the look-and-feel of the UI frame
          */
         final Drawable borderDrawable = SharedResources.getDrawableResource(getPackageManager(), getCallingPackage(), SharedResources.DRAWABLE_LOCALE_BORDER);
+        Log.d(Constants.LOG_TAG, "borderDrawable=" + borderDrawable);
         if (borderDrawable == null) {
             // this is ugly, but it maintains compatibility
             findViewById(R.id.frame).setBackgroundColor(Color.WHITE);
@@ -173,7 +168,7 @@ public class EditConditionActivity extends Activity {
      */
     @Override
     public void finish() {
-        if (mIsCancelled) {
+        if (isCancelled) {
             setResult(RESULT_CANCELED);
         } else {
             final Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
@@ -278,13 +273,13 @@ public class EditConditionActivity extends Activity {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(HELP_URL)));
                 } catch (final Exception e) {
-                    Toast.makeText(getApplicationContext(), com.twofortyfouram.locale.platform.R.string.twofortyfouram_locale_application_not_available, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.twofortyfouram_locale_application_not_available, Toast.LENGTH_LONG).show();
                 }
 
                 return true;
             }
             case R.id.twofortyfouram_locale_menu_dontsave: {
-                mIsCancelled = true;
+                isCancelled = true;
                 finish();
                 return true;
             }
