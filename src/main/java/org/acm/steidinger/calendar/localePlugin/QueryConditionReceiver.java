@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
 
 import java.util.Date;
@@ -30,10 +31,10 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         if (id == null) {
             return;
         }
-        List<CalendarProvider.CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
+        List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
         debug(String.format("Checking %d calendar entries", entries.size()));
         boolean isBooked = false;
-        for (CalendarProvider.CalendarEntry entry : entries) {
+        for (CalendarEntry entry : entries) {
             Date now = new Date();
             if (entry.begin.before(now) && entry.end.after(now)) {
                 isBooked = true;

@@ -66,7 +66,6 @@ public class EditConditionActivity extends Activity {
         preventCustomSerializableAttack(getIntent());
         setContentView(R.layout.main);
         CharSequence title = BreadCrumber.generateBreadcrumb(getApplicationContext(), getIntent(), getString(R.string.plugin_name));
-        Log.d(Constants.LOG_TAG, "title=" + title);
         setTitle(title);
 
         /*
@@ -75,7 +74,6 @@ public class EditConditionActivity extends Activity {
          * allow the use of default values, while also permitting the host APK to also customize the look-and-feel of the UI frame
          */
         final Drawable borderDrawable = SharedResources.getDrawableResource(getPackageManager(), getCallingPackage(), SharedResources.DRAWABLE_LOCALE_BORDER);
-        Log.d(Constants.LOG_TAG, "borderDrawable=" + borderDrawable);
         if (borderDrawable == null) {
             // this is ugly, but it maintains compatibility
             findViewById(R.id.frame).setBackgroundColor(Color.WHITE);
