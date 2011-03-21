@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
@@ -26,17 +27,20 @@ public class QueryConditionReceiver extends BroadcastReceiver {
             return;
         }
         boolean checkIfBooked = bundle.getBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
+        long leadTime = bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5) * DateUtils.MINUTE_IN_MILLIS;
         String id = bundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID);
-        debug(String.format("Parameters: checkIfBooked=%s, calendarID=%s", checkIfBooked, id));
+        debug(String.format("Parameters: checkIfBooked=%s, calendarID=%s, leadTime=%d", checkIfBooked, id, leadTime));
         if (id == null) {
             return;
         }
         List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
         debug(String.format("Checking %d calendar entries", entries.size()));
         boolean isBooked = false;
+        Date now = new Date();
+        Date nowPlusLeadTime = new Date(now.getTime() + leadTime);
+        debug("now=" + DateUtils.formatDateTime(context, now.getTime(), DateUtils.FORMAT_SHOW_TIME) + "  now+lead=" + DateUtils.formatDateTime(context, nowPlusLeadTime.getTime(), DateUtils.FORMAT_SHOW_TIME));
         for (CalendarEntry entry : entries) {
-            Date now = new Date();
-            if (entry.begin.before(now) && entry.end.after(now)) {
+            if (entry.begin.before(nowPlusLeadTime) && entry.end.after(now)) {
                 isBooked = true;
             }
         }

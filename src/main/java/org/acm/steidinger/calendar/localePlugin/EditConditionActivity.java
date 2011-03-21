@@ -94,7 +94,14 @@ public class EditConditionActivity extends Activity {
                         getString(R.string.free)});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateSpinner.setAdapter(adapter);
-
+        Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
+        ArrayAdapter<String> leadTimeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{
+                getString(R.string.lead_time_0min),
+                getString(R.string.lead_time_5min),
+                getString(R.string.lead_time_10min)
+        });
+        leadTimeSpinner.setAdapter(leadTimeAdapter);
+        leadTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         /*
          * if savedInstanceState == null, then then this is a new Activity instance and a check for EXTRA_BUNDLE is needed
          */
@@ -118,6 +125,10 @@ public class EditConditionActivity extends Activity {
                 if (booked == null || booked) {
                     stateSpinner.setSelection(POSITION_BOOKED);
                 }
+                int leadTime = forwardedBundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5);
+                if (leadTime == 0) leadTimeSpinner.setSelection(0);
+                else if (leadTime == 5) leadTimeSpinner.setSelection(1);
+                else leadTimeSpinner.setSelection(2);
             }
         }
         /*
@@ -171,6 +182,7 @@ public class EditConditionActivity extends Activity {
         } else {
             final Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
             final Spinner stateSpinner = (Spinner) findViewById(R.id.calendarStateSpinner);
+            final Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
             final Intent returnIntent = new Intent();
 
             final Bundle storeAndForwardExtras = new Bundle();
@@ -199,9 +211,28 @@ public class EditConditionActivity extends Activity {
                     break;
                 }
             }
+
+            int leadTime = 5;
+            switch (leadTimeSpinner.getSelectedItemPosition()) {
+                case 0:
+                    leadTime = 0;
+                    break;
+                case 1:
+                    leadTime = 5;
+                    blurb += " -" + getString(R.string.lead_time_5min_short);
+                    break;
+                case 2:
+                    leadTime = 10;
+                    blurb += " -" + getString(R.string.lead_time_10min_short);
+                    break;
+                default:
+                    Log.w(Constants.LOG_TAG, "Fell through switch statement"); //$NON-NLS-1$
+                    break;
+            }
+            storeAndForwardExtras.putInt(Constants.BUNDLE_EXTRA_LEAD_TIME, leadTime);
+
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb);
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
-
             setResult(RESULT_OK, returnIntent);
         }
 

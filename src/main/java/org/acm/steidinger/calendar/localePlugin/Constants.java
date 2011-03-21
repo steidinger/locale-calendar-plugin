@@ -46,14 +46,10 @@ public final class Constants
     static final String BUNDLE_EXTRA_CALENDAR_ID = "org.acm.steidinger.calendar.localePlugin.extra.ID";
 
     /**
-     * Enables invariant checking within the app. Typically, this can be left enabled. Disabling it may slightly improve
-     * performance.
-     */
-    static final boolean ENABLE_CHECK_INVARIANTS = true;
-
-    /**
      * Enables logging within the app. Typically, this should be disabled before creating a release version of the app. Logging
      * has *significant* performance implications.
      */
-    static final boolean IS_LOGGABLE = false;
+    static final boolean IS_LOGGABLE = true;
+
+    public static final String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
 }

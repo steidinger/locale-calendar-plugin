@@ -6,4 +6,10 @@
     <string name="setting_name">Kalender</string>
     <string name="booked">gebucht</string>
     <string name="free">frei</string>
+    <string name="lead_time">Vorlaufzeit</string>
+    <string name="lead_time_0min">Keine Vorlaufzeit</string>
+    <string name="lead_time_5min">5 Minuten</string>
+    <string name="lead_time_10min">10 Minuten</string>
+    <string name="lead_time_5min_short">5min</string>
+    <string name="lead_time_10min_short">10min</string>
 </resources>

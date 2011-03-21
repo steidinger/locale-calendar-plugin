@@ -29,6 +29,19 @@
                  android:layout_height="wrap_content"
                  android:layout_width="fill_parent"
                  android:prompt="@string/calendar_prompt"/>
+            <LinearLayout android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:orientation="horizontal"
+                          android:layout_margin="5dp">
+                <TextView android:layout_height="wrap_content"
+                          android:layout_width="wrap_content"
+                          android:layout_marginRight="10dp"
+                          android:text="@string/lead_time" />
+                <Spinner android:layout_height="wrap_content"
+                         android:layout_width="wrap_content"
+                         android:prompt="@string/lead_time"
+                         android:id="@+id/leadTimeSpinner" />
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
 <!--</LinearLayout>-->
