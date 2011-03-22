@@ -42,6 +42,12 @@
                          android:prompt="@string/lead_time"
                          android:id="@+id/leadTimeSpinner" />
             </LinearLayout>
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:text="@string/exclusion_prompt" />
+            <EditText android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:id="@+id/exclusions" />
         </LinearLayout>
     </FrameLayout>
 <!--</LinearLayout>-->

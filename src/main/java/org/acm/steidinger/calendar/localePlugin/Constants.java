@@ -52,4 +52,5 @@ public final class Constants
     static final boolean IS_LOGGABLE = true;
 
     public static final String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
+    public static final String BUNDLE_EXTRA_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.EXCLUSION";
 }

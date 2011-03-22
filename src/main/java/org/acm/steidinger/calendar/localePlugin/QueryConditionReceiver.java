@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
 
@@ -39,9 +40,19 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         Date now = new Date();
         Date nowPlusLeadTime = new Date(now.getTime() + leadTime);
         debug("now=" + DateUtils.formatDateTime(context, now.getTime(), DateUtils.FORMAT_SHOW_TIME) + "  now+lead=" + DateUtils.formatDateTime(context, nowPlusLeadTime.getTime(), DateUtils.FORMAT_SHOW_TIME));
+        String exclusions = bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
+        String[] excludedWords = getExcludedWords(exclusions);
+
         for (CalendarEntry entry : entries) {
             if (entry.begin.before(nowPlusLeadTime) && entry.end.after(now)) {
-                isBooked = true;
+                String lowerCaseTitle = entry.title == null ? "" : entry.title.toLowerCase();
+                boolean isExcluded = false;
+                for (String word : excludedWords) {
+                    if (lowerCaseTitle.contains(word)) {
+                        isExcluded = true;
+                    }
+                }
+                isBooked = !isExcluded;
             }
         }
         if (checkIfBooked && isBooked) {
@@ -54,6 +65,24 @@ public class QueryConditionReceiver extends BroadcastReceiver {
             debug("Condition false");
             setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED);
         }
+    }
+
+    private String[] getExcludedWords(String exclusions) {
+        StringBuilder debugMsg = new StringBuilder("Excluded words: ");
+        String[] excludedWords;
+        if (exclusions != null) {
+            excludedWords = exclusions.split("\\s+");
+            for (int i = 0; i < excludedWords.length; i++) {
+                excludedWords[i] = excludedWords[i].toLowerCase();
+                if (Constants.IS_LOGGABLE) {
+                    debugMsg.append(excludedWords[i]).append(", ");
+                }
+            }
+        } else {
+            excludedWords = new String[0];
+        }
+        debug(debugMsg.toString());
+        return excludedWords;
     }
 
     private void debug(final String msg) {

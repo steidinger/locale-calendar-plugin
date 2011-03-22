@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -129,6 +130,10 @@ public class EditConditionActivity extends Activity {
                 if (leadTime == 0) leadTimeSpinner.setSelection(0);
                 else if (leadTime == 5) leadTimeSpinner.setSelection(1);
                 else leadTimeSpinner.setSelection(2);
+                String exclusions = forwardedBundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
+                if (exclusions != null) {
+                    ((EditText) findViewById(R.id.exclusions)).setText(exclusions);
+                }
             }
         }
         /*
@@ -230,7 +235,8 @@ public class EditConditionActivity extends Activity {
                     break;
             }
             storeAndForwardExtras.putInt(Constants.BUNDLE_EXTRA_LEAD_TIME, leadTime);
-
+            String exclusions = ((EditText) findViewById(R.id.exclusions)).getText().toString();
+            storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_EXCLUSION, exclusions);
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb);
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
             setResult(RESULT_OK, returnIntent);

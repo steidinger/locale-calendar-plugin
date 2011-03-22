@@ -12,4 +12,5 @@
     <string name="lead_time_10min">10 Minuten</string>
     <string name="lead_time_5min_short">5min</string>
     <string name="lead_time_10min_short">10min</string>
+    <string name="exclusion_prompt">Nicht in Text enthalten:</string>
 </resources>
