@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
 
@@ -71,7 +70,7 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         StringBuilder debugMsg = new StringBuilder("Excluded words: ");
         String[] excludedWords;
         if (exclusions != null) {
-            excludedWords = exclusions.split("\\s+");
+            excludedWords = exclusions.split("(,|\\s)+");
             for (int i = 0; i < excludedWords.length; i++) {
                 excludedWords[i] = excludedWords[i].toLowerCase();
                 if (Constants.IS_LOGGABLE) {

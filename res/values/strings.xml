@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Calendar Locale Plugin</string>
-    <string name="plugin_name">Calendar Condition</string>
+    <string name="app_name">Locale Calendar Plugin</string>
+    <string name="plugin_name">Calendar</string>
     <string name="calendar_prompt">Choose Calendar</string>
     <string name="setting_name">Calendar</string>
     <string name="booked">booked</string>
     <string name="free">free</string>
+    <string name="lead_time">Lead Time</string>
+    <string name="lead_time_0min">No lead time</string>
+    <string name="lead_time_5min">5 minutes</string>
+    <string name="lead_time_10min">10 minutes</string>
+    <string name="lead_time_5min_short">5min</string>
+    <string name="lead_time_10min_short">10min</string>
+    <string name="exclusion_prompt">Appointment title must not contain:</string>
 
 
     <!-- A toast message that appears if an application that is being launched isn't available.  There is no character length maximum, although this message will only appear on the screen for about 5 seconds in a Toast message so it should be short enough to be comprehended before it disappears -->

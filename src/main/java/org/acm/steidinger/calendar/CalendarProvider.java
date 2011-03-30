@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.text.format.DateUtils;
 
 import java.util.ArrayList;
@@ -12,9 +13,20 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarProvider {
+    private static Uri providerUri(String path) {
+        String base;
+        if (Integer.parseInt(Build.VERSION.SDK) < 8) {
+            base = "content://calendar";
+        }
+        else {
+            base = "content://com.android.calendar";
+        }
+        return Uri.parse(base + path);
+    }
+
     public static List<CalendarInfo> getCalendars(Context context) {
         List<CalendarInfo> calendars = new ArrayList<CalendarInfo>();
-        final Cursor cursor = context.getContentResolver().query(Uri.parse("content://calendar/calendars"),
+        final Cursor cursor = context.getContentResolver().query(providerUri("/calendars"),
                 (new String[]{"_id", "displayName", "selected"}), null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -32,7 +44,7 @@ public class CalendarProvider {
         ContentResolver contentResolver = context.getContentResolver();
         List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
 
-        Uri.Builder builder = Uri.parse("content://calendar/instances/when").buildUpon();
+        Uri.Builder builder = providerUri("/instances/when").buildUpon();
         long now = new Date().getTime();
         ContentUris.appendId(builder, now);
         ContentUris.appendId(builder, now + DateUtils.DAY_IN_MILLIS);
