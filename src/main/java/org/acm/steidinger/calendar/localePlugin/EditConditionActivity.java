@@ -1,3 +1,15 @@
+// Copyright 2011 Frank Steidinger,
+// derived from example code provided by two forty four a.m. LLC <http://www.twofortyfouram.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package org.acm.steidinger.calendar.localePlugin;
 
 import android.app.Activity;
@@ -23,39 +35,14 @@ import org.acm.steidinger.calendar.CalendarProvider;
 import java.util.List;
 
 public class EditConditionActivity extends Activity {
-    /**
-     * Position in the spinner
-     */
     private static final int POSITION_FREE = 1;
-
-    /**
-     * Position in the spinner
-     */
     private static final int POSITION_BOOKED = 0;
-
-    /**
-     * Dialog ID for displaying the license agreement.
-     */
-    private static final int DIALOG_LICENSE = 0;
 
     /**
      * Help URL, used for the {@link R.id#twofortyfouram_locale_menu_help} menu item.
      */
-    // TODO: Place a real help URL here
-    private static final String HELP_URL = "http://www.yourcompany.com/yourhelp.html"; //$NON-NLS-1$
+    private static final String HELP_URL = "https://github.com/steidinger/locale-calendar-plugin";
 
-    /**
-     * Flag boolean that can only be set to true via the "Don't Save"
-     * {@link R.id#twofortyfouram_locale_menu_dontsave} menu item in
-     * {@link #onMenuItemSelected(int, MenuItem)}.
-     * <p/>
-     * If true, then this {@code Activity} should return {@link Activity#RESULT_CANCELED} in {@link #finish()}.
-     * <p/>
-     * If false, then this {@code Activity} should generally return {@link Activity#RESULT_OK} with extras
-     * {@link com.twofortyfouram.locale.Intent#EXTRA_BUNDLE} and {@link com.twofortyfouram.locale.Intent#EXTRA_STRING_BLURB}.
-     * <p/>
-     * There is no need to save/restore this field's state when the {@code Activity} is paused.
-     */
     private boolean isCancelled = false;
 
     /**
