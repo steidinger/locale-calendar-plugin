@@ -13,8 +13,8 @@
     <string name="lead_time_10min">10 minutes</string>
     <string name="lead_time_5min_short">5min</string>
     <string name="lead_time_10min_short">10min</string>
-    <string name="exclusion_prompt">Appointment title must not contain:</string>
-    <string name="ignore_all_day_entries">Ignore whole day appointments</string>
+    <string name="exclusion_prompt">Event title must not contain:</string>
+    <string name="ignore_all_day_entries">Ignore all day events</string>
 
 
     <!-- A toast message that appears if an application that is being launched isn't available.  There is no character length maximum, although this message will only appear on the screen for about 5 seconds in a Toast message so it should be short enough to be comprehended before it disappears -->

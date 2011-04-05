@@ -119,11 +119,11 @@ public class EditConditionActivity extends Activity {
                     ((EditText) findViewById(R.id.exclusions)).setText(exclusions);
                 }
                 boolean ignoreAllDayEvents = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
-                CheckBox allDayCheckBox = (CheckBox) findViewById(R.id.allDayCheckbox);
-                allDayCheckBox.setChecked(ignoreAllDayEvents);
-                allDayCheckBox.setTextColor(Color.BLACK);
+                ((CheckBox) findViewById(R.id.allDayCheckbox)).setChecked(ignoreAllDayEvents);
             }
         }
+        // quick fix for white label on white background.
+        ((CheckBox) findViewById(R.id.allDayCheckbox)).setTextColor(Color.BLACK);
         /*
          * if savedInstanceState != null, there is no need to restore any Activity state directly via onSaveInstanceState()), as
          * the Spinner object handles that automatically
