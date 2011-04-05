@@ -53,14 +53,17 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         debug("now=" + DateUtils.formatDateTime(context, now.getTime(), DateUtils.FORMAT_SHOW_TIME) + "  now+lead=" + DateUtils.formatDateTime(context, nowPlusLeadTime.getTime(), DateUtils.FORMAT_SHOW_TIME));
         String exclusions = bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
         String[] excludedWords = getExcludedWords(exclusions);
-
+        boolean ignoreAllDayEvents = bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
+        debug("ignoreAllDayEvents=" + ignoreAllDayEvents);
         for (CalendarEntry entry : entries) {
             if (entry.begin.before(nowPlusLeadTime) && entry.end.after(now)) {
                 String lowerCaseTitle = entry.title == null ? "" : entry.title.toLowerCase();
-                boolean isExcluded = false;
-                for (String word : excludedWords) {
-                    if (lowerCaseTitle.contains(word)) {
-                        isExcluded = true;
+                boolean isExcluded = ignoreAllDayEvents && entry.allDay;
+                if (!isExcluded) {
+                    for (String word : excludedWords) {
+                        if (lowerCaseTitle.contains(word)) {
+                            isExcluded = true;
+                        }
                     }
                 }
                 isBooked = !isExcluded;

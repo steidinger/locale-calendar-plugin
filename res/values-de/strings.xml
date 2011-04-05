@@ -3,14 +3,16 @@
     <string name="app_name">Locale Calendar Plugin</string>
     <string name="plugin_name">Kalender</string>
     <string name="calendar_prompt">Kalender wählen</string>
+    <string name="calendar_state_prompt">Kalenderstatus wählen</string>
     <string name="setting_name">Kalender</string>
     <string name="booked">gebucht</string>
     <string name="free">frei</string>
-    <string name="lead_time">Vorlaufzeit</string>
+    <string name="lead_time">Vorlaufzeit:</string>
     <string name="lead_time_0min">Keine Vorlaufzeit</string>
     <string name="lead_time_5min">5 Minuten</string>
     <string name="lead_time_10min">10 Minuten</string>
     <string name="lead_time_5min_short">5min</string>
     <string name="lead_time_10min_short">10min</string>
     <string name="exclusion_prompt">Nicht in Text enthalten:</string>
+    <string name="ignore_all_day_entries">Ganztägige Einträge ignorieren</string>
 </resources>

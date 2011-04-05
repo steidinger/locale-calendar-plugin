@@ -17,11 +17,13 @@ public class CalendarEntry {
     public Date begin;
     public Date end;
     public String title;
+    public boolean allDay;
 
-    CalendarEntry(Long begin, Long end, String title) {
+    CalendarEntry(long begin, long end, String title, int allDay) {
         this.begin = new Date(begin);
         this.end = new Date(end);
         this.title = title;
+        this.allDay = allDay == 1;
     }
 
     @Override

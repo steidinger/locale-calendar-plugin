@@ -67,7 +67,7 @@ public class CalendarProvider {
         // For a full list of available columns see http://tinyurl.com/yfbg76w
 
         while (eventCursor.moveToNext()) {
-            entries.add(new CalendarEntry(eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0)));
+            entries.add(new CalendarEntry(eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3)));
         }
         return entries;
     }

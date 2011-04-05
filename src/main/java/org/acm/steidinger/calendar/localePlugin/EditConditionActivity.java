@@ -22,10 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.twofortyfouram.locale.BreadCrumber;
 import com.twofortyfouram.locale.SharedResources;
@@ -121,6 +118,10 @@ public class EditConditionActivity extends Activity {
                 if (exclusions != null) {
                     ((EditText) findViewById(R.id.exclusions)).setText(exclusions);
                 }
+                boolean ignoreAllDayEvents = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
+                CheckBox allDayCheckBox = (CheckBox) findViewById(R.id.allDayCheckbox);
+                allDayCheckBox.setChecked(ignoreAllDayEvents);
+                allDayCheckBox.setTextColor(Color.BLACK);
             }
         }
         /*
@@ -224,6 +225,7 @@ public class EditConditionActivity extends Activity {
             storeAndForwardExtras.putInt(Constants.BUNDLE_EXTRA_LEAD_TIME, leadTime);
             String exclusions = ((EditText) findViewById(R.id.exclusions)).getText().toString();
             storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_EXCLUSION, exclusions);
+            storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, ((CheckBox) findViewById(R.id.allDayCheckbox)).isChecked());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb);
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
             setResult(RESULT_OK, returnIntent);

@@ -28,7 +28,7 @@
                  android:drawSelectorOnTop="true"
                  android:layout_height="wrap_content"
                  android:layout_width="fill_parent"
-                 android:prompt="@string/calendar_prompt"/>
+                 android:prompt="@string/calendar_state_prompt"/>
             <LinearLayout android:layout_height="wrap_content"
                           android:layout_width="fill_parent"
                           android:orientation="horizontal"
@@ -36,6 +36,7 @@
                 <TextView android:layout_height="wrap_content"
                           android:layout_width="wrap_content"
                           android:layout_marginRight="10dp"
+                          android:textSize="10pt"
                           android:text="@string/lead_time" />
                 <Spinner android:layout_height="wrap_content"
                          android:layout_width="wrap_content"
@@ -44,10 +45,15 @@
             </LinearLayout>
             <TextView android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
+                      android:textSize="10pt"
                       android:text="@string/exclusion_prompt" />
             <EditText android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
                       android:id="@+id/exclusions" />
+            <CheckBox android:text="@string/ignore_all_day_entries"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/allDayCheckbox"/>
         </LinearLayout>
     </FrameLayout>
 <!--</LinearLayout>-->
