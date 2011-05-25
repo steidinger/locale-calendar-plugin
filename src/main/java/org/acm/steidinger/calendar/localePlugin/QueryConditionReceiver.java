@@ -57,15 +57,7 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         debug("ignoreAllDayEvents=" + ignoreAllDayEvents);
         for (CalendarEntry entry : entries) {
             if (entry.begin.before(nowPlusLeadTime) && entry.end.after(now)) {
-                String lowerCaseTitle = entry.title == null ? "" : entry.title.toLowerCase();
-                boolean isExcluded = ignoreAllDayEvents && entry.allDay;
-                if (!isExcluded) {
-                    for (String word : excludedWords) {
-                        if (lowerCaseTitle.contains(word)) {
-                            isExcluded = true;
-                        }
-                    }
-                }
+                boolean isExcluded = (ignoreAllDayEvents && entry.allDay) || containsExcludedWord(entry.title, excludedWords);
                 isBooked = !isExcluded;
             }
         }
@@ -81,7 +73,18 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         }
     }
 
-    private String[] getExcludedWords(String exclusions) {
+    private boolean containsExcludedWord(final String title, String[] excludedWords) {
+        String lowerCaseTitle = title == null ? "" : title.toLowerCase();
+        boolean containsExcludedWord = false;
+        for (String word : excludedWords) {
+            if (lowerCaseTitle.contains(word)) {
+                containsExcludedWord = true;
+            }
+        }
+        return containsExcludedWord;
+    }
+
+    protected String[] getExcludedWords(String exclusions) {
         StringBuilder debugMsg = new StringBuilder("Excluded words: ");
         String[] excludedWords;
         if (exclusions != null) {
