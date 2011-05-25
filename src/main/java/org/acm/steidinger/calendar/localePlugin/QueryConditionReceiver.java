@@ -21,6 +21,8 @@ import android.util.Log;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         Date nowPlusLeadTime = new Date(now.getTime() + leadTime);
         debug("now=" + DateUtils.formatDateTime(context, now.getTime(), DateUtils.FORMAT_SHOW_TIME) + "  now+lead=" + DateUtils.formatDateTime(context, nowPlusLeadTime.getTime(), DateUtils.FORMAT_SHOW_TIME));
         String exclusions = bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
-        String[] excludedWords = getExcludedWords(exclusions);
+        List<String> excludedWords = getExcludedWords(exclusions);
         boolean ignoreAllDayEvents = bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
         debug("ignoreAllDayEvents=" + ignoreAllDayEvents);
         for (CalendarEntry entry : entries) {
@@ -73,32 +75,30 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         }
     }
 
-    private boolean containsExcludedWord(final String title, String[] excludedWords) {
+    private boolean containsExcludedWord(final String title, List<String> excludedWords) {
         String lowerCaseTitle = title == null ? "" : title.toLowerCase();
         boolean containsExcludedWord = false;
         for (String word : excludedWords) {
-            if (lowerCaseTitle.contains(word)) {
+            if (word.length() > 0 && lowerCaseTitle.contains(word)) {
                 containsExcludedWord = true;
             }
         }
         return containsExcludedWord;
     }
 
-    protected String[] getExcludedWords(String exclusions) {
-        StringBuilder debugMsg = new StringBuilder("Excluded words: ");
-        String[] excludedWords;
-        if (exclusions != null) {
-            excludedWords = exclusions.split("(,|\\s)+");
-            for (int i = 0; i < excludedWords.length; i++) {
-                excludedWords[i] = excludedWords[i].toLowerCase();
-                if (Constants.IS_LOGGABLE) {
-                    debugMsg.append(excludedWords[i]).append(", ");
+    protected List<String> getExcludedWords(String exclusions) {
+        List<String> excludedWords;
+        if (exclusions != null && exclusions.trim().length() > 0) {
+            String[] split = exclusions.split("(,|\\s)+");
+            excludedWords = new ArrayList<String>(split.length);
+            for (String word : split) {
+                if (word != null && word.length() > 0) {
+                    excludedWords.add(word.toLowerCase());
                 }
             }
         } else {
-            excludedWords = new String[0];
+            excludedWords = Collections.emptyList();
         }
-        debug(debugMsg.toString());
         return excludedWords;
     }
 
