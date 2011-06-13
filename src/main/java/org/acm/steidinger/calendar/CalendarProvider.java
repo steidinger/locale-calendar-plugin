@@ -41,11 +41,15 @@ public class CalendarProvider {
         final Cursor cursor = context.getContentResolver().query(providerUri("/calendars"),
                 (new String[]{"_id", "displayName", "selected"}), null, null, null);
         if (cursor != null) {
-            while (cursor.moveToNext()) {
-                CalendarInfo calendarInfo = new CalendarInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2));
-                if (calendarInfo.selected) {
-                    calendars.add(calendarInfo);
+            try {
+                while (cursor.moveToNext()) {
+                    CalendarInfo calendarInfo = new CalendarInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+                    if (calendarInfo.selected) {
+                        calendars.add(calendarInfo);
+                    }
                 }
+            } finally {
+                cursor.close();
             }
         }
         return calendars;
@@ -67,8 +71,12 @@ public class CalendarProvider {
         // For a full list of available columns see http://tinyurl.com/yfbg76w
 
         if (eventCursor != null) {
-            while (eventCursor.moveToNext()) {
-                entries.add(new CalendarEntry(eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3)));
+            try {
+                while (eventCursor.moveToNext()) {
+                    entries.add(new CalendarEntry(eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3)));
+                }
+            } finally {
+                eventCursor.close();
             }
         }
         return entries;
