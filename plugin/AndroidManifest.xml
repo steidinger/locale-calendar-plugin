@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-                android:name="org.acm.steidinger.calendar.localePlugin.EditConditionActivity"
+                android:name=".EditConditionActivity"
                 android:label="@string/setting_name"
                 android:icon="@drawable/calendar"
                 android:exported="true" >
@@ -32,7 +32,7 @@
                 </intent-filter>
           </activity>
           <!-- Listen for the "query" action-->
-          <receiver android:name="org.acm.steidinger.calendar.localePlugin.QueryConditionReceiver" >
+          <receiver android:name=".QueryConditionReceiver" >
               <intent-filter>
                   <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
               </intent-filter>

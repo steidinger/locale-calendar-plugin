@@ -13,22 +13,12 @@
 package org.acm.steidinger.calendar;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.*;
 import org.acm.steidinger.calendar.localePlugin.Constants;
 import org.acm.steidinger.calendar.localePlugin.R;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 public class MyActivity extends Activity {

@@ -21,8 +21,6 @@ import android.util.Log;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
