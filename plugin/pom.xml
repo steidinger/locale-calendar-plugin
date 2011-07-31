@@ -18,6 +18,11 @@
             <artifactId>android</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.acm.steidinger</groupId>
+            <artifactId>android-calendar-plugin-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
