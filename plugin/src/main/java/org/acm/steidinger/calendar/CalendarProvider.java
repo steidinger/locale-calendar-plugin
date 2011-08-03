@@ -73,7 +73,7 @@ public class CalendarProvider {
         if (eventCursor != null) {
             try {
                 while (eventCursor.moveToNext()) {
-                    entries.add(new CalendarEntry(eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3)));
+                    entries.add(new CalendarEntry(calendarID, eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3)));
                 }
             } finally {
                 eventCursor.close();

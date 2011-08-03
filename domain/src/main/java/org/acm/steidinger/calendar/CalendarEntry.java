@@ -14,12 +14,14 @@ package org.acm.steidinger.calendar;
 import java.util.Date;
 
 public class CalendarEntry {
-    public Date begin;
-    public Date end;
-    public String title;
-    public boolean allDay;
+    public final String calendarID;
+    public final Date begin;
+    public final Date end;
+    public final String title;
+    public final boolean allDay;
 
-    CalendarEntry(long begin, long end, String title, int allDay) {
+    public CalendarEntry(String calendarID, long begin, long end, String title, int allDay) {
+        this.calendarID = calendarID;
         this.begin = new Date(begin);
         this.end = new Date(end);
         this.title = title;
