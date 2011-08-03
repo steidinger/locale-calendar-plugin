@@ -9,6 +9,7 @@ public class ConditionGroupBuilder {
     private ConditionGroup group;
 
     private ConditionGroupBuilder() {
+        group = new ConditionGroup();
     }
 
     public static ConditionGroupBuilder all() {

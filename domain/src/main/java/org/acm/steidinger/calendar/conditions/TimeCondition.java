@@ -16,4 +16,9 @@ public class TimeCondition extends Condition {
         final long now = System.currentTimeMillis();
         return entry.begin.getTime() <= now + leadTimeInMillis && entry.end.getTime() >= now;
     }
+
+    @Override
+    public String toString() {
+        return "leadTime=" + (leadTimeInMillis / MINUTE_IN_MILLIS);
+    }
 }

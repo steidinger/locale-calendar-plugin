@@ -21,5 +21,5 @@ public final class Constants
     public static final String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
     public static final String BUNDLE_EXTRA_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.EXCLUSION";
     public static final String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";
-    static final boolean IS_LOGGABLE = false;
+    static final boolean IS_LOGGABLE = true;
 }

@@ -15,4 +15,7 @@ public class ConditionGroup {
         return true;
     }
 
+    public String toString() {
+        return conditions.toString();
+    }
 }

@@ -20,6 +20,8 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
+import org.acm.steidinger.calendar.ConditionGroup;
+import org.acm.steidinger.calendar.ConditionGroupBuilder;
 
 import java.util.Date;
 import java.util.List;
@@ -39,26 +41,24 @@ public class QueryConditionReceiver extends BroadcastReceiver {
             return;
         }
         boolean checkIfBooked = bundle.getBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
-        long leadTime = bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5) * DateUtils.MINUTE_IN_MILLIS;
         String id = bundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID);
-        debug(String.format("Parameters: checkIfBooked=%s, calendarID=%s, leadTime=%d", checkIfBooked, id, leadTime));
+        ConditionGroup condition = ConditionGroupBuilder.all()
+                .withCalendarId(id)
+                .withLeadTimeInMinutes(bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5))
+                .ignoringAllDayEvents(bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true))
+                .notContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION))
+                .build();
+        debug("Conditions:" + condition);
         if (id == null) {
             return;
         }
         List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
         debug(String.format("Checking %d calendar entries", entries.size()));
         boolean isBooked = false;
-        Date now = new Date();
-        Date nowPlusLeadTime = new Date(now.getTime() + leadTime);
-        debug("now=" + DateUtils.formatDateTime(context, now.getTime(), DateUtils.FORMAT_SHOW_TIME) + "  now+lead=" + DateUtils.formatDateTime(context, nowPlusLeadTime.getTime(), DateUtils.FORMAT_SHOW_TIME));
-        String exclusions = bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
-        StopWords stopWords = new StopWords(exclusions);
-        boolean ignoreAllDayEvents = bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
-        debug("ignoreAllDayEvents=" + ignoreAllDayEvents);
         for (CalendarEntry entry : entries) {
-            if (entry.begin.before(nowPlusLeadTime) && entry.end.after(now)) {
-                boolean isExcluded = (ignoreAllDayEvents && entry.allDay) || stopWords.containsExcludedWord(entry.title);
-                isBooked = !isExcluded;
+            if (condition.matches(entry)) {
+                isBooked = true;
+                break;
             }
         }
         if (checkIfBooked && isBooked) {

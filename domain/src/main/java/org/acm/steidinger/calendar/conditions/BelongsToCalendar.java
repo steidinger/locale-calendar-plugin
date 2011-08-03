@@ -3,6 +3,8 @@ package org.acm.steidinger.calendar.conditions;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.Condition;
 
+import java.util.Arrays;
+
 public class BelongsToCalendar extends Condition {
     private final String[] ids;
 
@@ -18,5 +20,9 @@ public class BelongsToCalendar extends Condition {
             }
         }
         return false;
+    }
+
+    public String toString() {
+        return "calendar ID " + Arrays.toString(ids);
     }
 }

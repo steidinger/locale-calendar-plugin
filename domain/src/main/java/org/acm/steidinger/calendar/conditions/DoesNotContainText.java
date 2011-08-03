@@ -14,4 +14,9 @@ public class DoesNotContainText extends Condition {
     public boolean matches(CalendarEntry entry) {
         return entry.title != null && !entry.title.toLowerCase().contains(text);
     }
+
+    @Override
+    public String toString() {
+        return "notContaining '" + text + '\'';
+    }
 }

@@ -8,4 +8,8 @@ public class NotAllDayEvent extends Condition {
     public boolean matches(CalendarEntry entry) {
         return !entry.allDay;
     }
+
+    public String toString() {
+        return "ignoringAllDayEvents";
+    }
 }
