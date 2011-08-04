@@ -1,29 +1,29 @@
-// Copyright 2011 Frank Steidinger,
-// derived from example code provided by two forty four a.m. LLC <http://www.twofortyfouram.com>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/*
+ * // Copyright 2011 Frank Steidinger,
+ * //
+ * // Licensed under the Apache License, Version 2.0 (the "License");
+ * // you may not use this file except in compliance with the License.
+ * // You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>
+ * //
+ * // Unless required by applicable law or agreed to in writing, software
+ * // distributed under the License is distributed on an "AS IS" BASIS,
+ * // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * // See the License for the specific language governing permissions and
+ * // limitations under the License.
+ */
+
 package org.acm.steidinger.calendar.localePlugin;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.CalendarProvider;
 import org.acm.steidinger.calendar.ConditionGroup;
 import org.acm.steidinger.calendar.ConditionGroupBuilder;
 
-import java.util.Date;
 import java.util.List;
 
 public class QueryConditionReceiver extends BroadcastReceiver {
@@ -54,13 +54,7 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         }
         List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
         debug(String.format("Checking %d calendar entries", entries.size()));
-        boolean isBooked = false;
-        for (CalendarEntry entry : entries) {
-            if (condition.matches(entry)) {
-                isBooked = true;
-                break;
-            }
-        }
+        boolean isBooked = condition.anyMatch(entries);
         if (checkIfBooked && isBooked) {
             debug("Found calendar entry -> Condition true");
             setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);

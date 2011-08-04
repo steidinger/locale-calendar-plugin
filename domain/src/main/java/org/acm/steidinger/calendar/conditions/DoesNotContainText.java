@@ -4,7 +4,7 @@ import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.Condition;
 
 public class DoesNotContainText extends Condition {
-    private final String text;
+    public final String text;
 
     public DoesNotContainText(String text) {
         this.text = text.toLowerCase();
