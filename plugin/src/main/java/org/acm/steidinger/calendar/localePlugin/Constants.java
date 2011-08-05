@@ -12,14 +12,15 @@
 
 package org.acm.steidinger.calendar.localePlugin;
 
-public final class Constants
+public interface Constants
 {
 
-	public static final String LOG_TAG = "CalendarCondition";
-    static final String BUNDLE_EXTRA_CALENDAR_STATE = "org.acm.steidinger.calendar.localePlugin.extra.STATE";
-    static final String BUNDLE_EXTRA_CALENDAR_ID = "org.acm.steidinger.calendar.localePlugin.extra.ID";
-    public static final String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
-    public static final String BUNDLE_EXTRA_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.EXCLUSION";
-    public static final String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";
-    static final boolean IS_LOGGABLE = true;
+	String LOG_TAG = "CalendarCondition";
+    String BUNDLE_EXTRA_CALENDAR_STATE = "org.acm.steidinger.calendar.localePlugin.extra.STATE";
+    String BUNDLE_EXTRA_CALENDAR_ID = "org.acm.steidinger.calendar.localePlugin.extra.ID";
+    String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
+    String BUNDLE_EXTRA_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.EXCLUSION";
+    String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";
+    boolean IS_LOGGABLE = true;
+    boolean IS_DEBUG = true;
 }

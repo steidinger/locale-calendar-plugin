@@ -19,8 +19,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.text.format.DateUtils;
+import org.acm.steidinger.calendar.localePlugin.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +39,9 @@ public class CalendarProvider {
     }
 
     public static List<CalendarInfo> getCalendars(Context context) {
+        if (Constants.IS_DEBUG) {
+            return getDummyCalendars();
+        }
         List<CalendarInfo> calendars = new ArrayList<CalendarInfo>();
         final Cursor cursor = context.getContentResolver().query(providerUri("/calendars"),
                 (new String[]{"_id", "displayName", "selected"}), null, null, null);
@@ -82,4 +87,8 @@ public class CalendarProvider {
         return entries;
     }
 
+    private static List<CalendarInfo> getDummyCalendars() {
+        return Arrays.asList(new CalendarInfo("dummy1", "Test Calendar", "1"),
+                new CalendarInfo("dummy2", "Second Test Calendar", "1"));
+    }
 }
