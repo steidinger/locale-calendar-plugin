@@ -19,6 +19,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -32,9 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditConditionActivity extends Activity {
-    private static final int POSITION_FREE = 1;
-    private static final int POSITION_BOOKED = 0;
-
     /**
      * Help URL, used for the {@link R.id#twofortyfouram_locale_menu_help} menu item.
      */
@@ -80,13 +78,6 @@ public class EditConditionActivity extends Activity {
             calendarGroup.addView(box);
             calendarCheckBoxes.add(box);
         }
-        final Spinner stateSpinner = ((Spinner) findViewById(R.id.calendarStateSpinner));
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]
-                {
-                        getString(R.string.booked),
-                        getString(R.string.free)});
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stateSpinner.setAdapter(adapter);
         Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
         ArrayAdapter<String> leadTimeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{
                 getString(R.string.lead_time_0min),
@@ -120,10 +111,6 @@ public class EditConditionActivity extends Activity {
                             calendarCheckBoxes.get(i).setChecked(true);
                         }
                     }
-                }
-                Boolean booked = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE);
-                if (booked == null || booked) {
-                    stateSpinner.setSelection(POSITION_BOOKED);
                 }
                 int leadTime = forwardedBundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5);
                 if (leadTime == 0) leadTimeSpinner.setSelection(0);
@@ -188,36 +175,21 @@ public class EditConditionActivity extends Activity {
         if (isCancelled) {
             setResult(RESULT_CANCELED);
         } else {
-            final Spinner stateSpinner = (Spinner) findViewById(R.id.calendarStateSpinner);
             final Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
             final Intent returnIntent = new Intent();
 
             final Bundle storeAndForwardExtras = new Bundle();
             StringBuilder blurb = new StringBuilder();
             ArrayList<String> selectedCalendarIds = new ArrayList<String>(calendarCheckBoxes.size());
+            ArrayList<String> names = new ArrayList<String>();
             for (int i = 0; i < calendarCheckBoxes.size(); i++) {
                 if (calendarCheckBoxes.get(i).isChecked()) {
                     selectedCalendarIds.add(calendars.get(i).id);
-                    blurb.append(calendars.get(i).name);
+                    names.add(calendars.get(i).name);
                 }
             }
             storeAndForwardExtras.putStringArrayList(Constants.BUNDLE_EXTRA_CALENDAR_IDS, selectedCalendarIds);
-            switch (stateSpinner.getSelectedItemPosition()) {
-                case POSITION_FREE: {
-                    storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, false);
-                    blurb.append(getString(R.string.free));
-                    break;
-                }
-                case POSITION_BOOKED: {
-                    storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
-                    blurb.append(getString(R.string.booked));
-                    break;
-                }
-                default: {
-                    Log.w(Constants.LOG_TAG, "Fell through switch statement"); //$NON-NLS-1$
-                    break;
-                }
-            }
+            blurb.append(TextUtils.join(",", names));
 
             int leadTime = 5;
             switch (leadTimeSpinner.getSelectedItemPosition()) {

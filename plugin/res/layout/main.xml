@@ -25,11 +25,6 @@
 
         </LinearLayout>
 
-        <Spinner android:id="@+id/calendarStateSpinner"
-                 android:drawSelectorOnTop="true"
-                 android:layout_height="wrap_content"
-                 android:layout_width="fill_parent"
-                 android:prompt="@string/calendar_state_prompt"/>
         <LinearLayout android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
                       android:orientation="horizontal"

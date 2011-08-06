@@ -14,9 +14,7 @@ package org.acm.steidinger.calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.*;
-import org.acm.steidinger.calendar.localePlugin.Constants;
+import android.widget.ArrayAdapter;
 import org.acm.steidinger.calendar.localePlugin.R;
 
 import java.util.List;
@@ -34,23 +32,11 @@ public class MyActivity extends Activity {
         ArrayAdapter<CalendarInfo> adapter = new ArrayAdapter<CalendarInfo>(this, android.R.layout.simple_spinner_item,
                 calendars.toArray(new CalendarInfo[calendars.size()]));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final Spinner spinner = (Spinner) findViewById(R.id.calendarStateSpinner);
-        final ArrayAdapter<String> states= new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, new String[] {
-                        getString(R.string.booked),
-                        getString(R.string.free)});
-        states.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(states);
 
     }
 
     @Override
     public void finish() {
-        final Spinner spinner = (Spinner) findViewById(R.id.calendarStateSpinner);
-        if (spinner != null) {
-            boolean booked = getString(R.string.booked).equals(spinner.getSelectedItem());
-            Log.d(Constants.LOG_TAG, "Calendar should be " + (booked ? "booked" : "free"));
-        }
         super.finish();
     }
 
