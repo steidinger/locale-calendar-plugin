@@ -20,8 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
 import android.widget.*;
 
 import com.twofortyfouram.locale.BreadCrumber;
@@ -29,6 +28,7 @@ import com.twofortyfouram.locale.SharedResources;
 import org.acm.steidinger.calendar.CalendarInfo;
 import org.acm.steidinger.calendar.CalendarProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditConditionActivity extends Activity {
@@ -41,6 +41,8 @@ public class EditConditionActivity extends Activity {
     private static final String HELP_URL = "https://github.com/steidinger/locale-calendar-plugin";
 
     private boolean isCancelled = false;
+    private List<CalendarInfo> calendars;
+    private List<CheckBox> calendarCheckBoxes;
 
     /**
      * {@inheritDoc}
@@ -66,12 +68,18 @@ public class EditConditionActivity extends Activity {
             findViewById(R.id.frame).setBackgroundDrawable(borderDrawable);
         }
 
-        List<CalendarInfo> calendars = CalendarProvider.getCalendars(this);
-        ArrayAdapter<CalendarInfo> calendarAdapter = new ArrayAdapter<CalendarInfo>(this, android.R.layout.simple_spinner_item,
-                calendars.toArray(new CalendarInfo[calendars.size()]));
-        calendarAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
-        calendarSpinner.setAdapter(calendarAdapter);
+        calendars = CalendarProvider.getCalendars(this);
+        calendarCheckBoxes = new ArrayList<CheckBox>(calendars.size());
+        ViewGroup calendarGroup = (ViewGroup) findViewById(R.id.calendarGroup);
+        LayoutInflater inflater = this.getLayoutInflater();
+        for (CalendarInfo calendar : calendars) {
+            CheckBox box = (CheckBox) inflater.inflate(R.layout.calendar_line, null);
+            box.setText(calendar.name);
+            box.setTextColor(Color.BLACK);
+            Log.d(Constants.LOG_TAG, box.toString() + ": " + calendar.name);
+            calendarGroup.addView(box);
+            calendarCheckBoxes.add(box);
+        }
         final Spinner stateSpinner = ((Spinner) findViewById(R.id.calendarStateSpinner));
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]
                 {
@@ -97,12 +105,19 @@ public class EditConditionActivity extends Activity {
              * the forwardedBundle would be null if this was a new condition
              */
             if (forwardedBundle != null) {
-                String selectedCalendarID = forwardedBundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID);
-                if (selectedCalendarID != null) {
-                    for (int i = 0; i < calendars.size(); i++) {
-                        if (selectedCalendarID.equals(calendars.get(i).id)) {
-                            calendarSpinner.setSelection(i);
-                            break;
+                ArrayList<String> selectedCalendarIds= null;
+                if (forwardedBundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_IDS)) {
+                    selectedCalendarIds = forwardedBundle.getStringArrayList(Constants.BUNDLE_EXTRA_CALENDAR_IDS);
+                }
+                // compat to plugin version < 0.5
+                if (selectedCalendarIds == null && forwardedBundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_ID)) {
+                    selectedCalendarIds = new ArrayList<String>(1);
+                    selectedCalendarIds.add(forwardedBundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID));
+                }
+                if (selectedCalendarIds != null && !selectedCalendarIds.isEmpty()) {
+                    for (int i = 0; i < this.calendars.size(); i++) {
+                        if (selectedCalendarIds.contains(calendars.get(i).id)) {
+                            calendarCheckBoxes.get(i).setChecked(true);
                         }
                     }
                 }
@@ -173,30 +188,29 @@ public class EditConditionActivity extends Activity {
         if (isCancelled) {
             setResult(RESULT_CANCELED);
         } else {
-            final Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
             final Spinner stateSpinner = (Spinner) findViewById(R.id.calendarStateSpinner);
             final Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
             final Intent returnIntent = new Intent();
 
             final Bundle storeAndForwardExtras = new Bundle();
-            String blurb;
-            CalendarInfo info = (CalendarInfo) calendarSpinner.getSelectedItem();
-            if (info != null  && info.id != null) {
-                blurb = info.name + ": ";
-                storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_CALENDAR_ID, info.id);
+            StringBuilder blurb = new StringBuilder();
+            ArrayList<String> selectedCalendarIds = new ArrayList<String>(calendarCheckBoxes.size());
+            for (int i = 0; i < calendarCheckBoxes.size(); i++) {
+                if (calendarCheckBoxes.get(i).isChecked()) {
+                    selectedCalendarIds.add(calendars.get(i).id);
+                    blurb.append(calendars.get(i).name);
+                }
             }
-            else {
-                blurb = "-";
-            }
+            storeAndForwardExtras.putStringArrayList(Constants.BUNDLE_EXTRA_CALENDAR_IDS, selectedCalendarIds);
             switch (stateSpinner.getSelectedItemPosition()) {
                 case POSITION_FREE: {
                     storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, false);
-                    blurb += getString(R.string.free);
+                    blurb.append(getString(R.string.free));
                     break;
                 }
                 case POSITION_BOOKED: {
                     storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
-                    blurb += getString(R.string.booked);
+                    blurb.append(getString(R.string.booked));
                     break;
                 }
                 default: {
@@ -212,11 +226,11 @@ public class EditConditionActivity extends Activity {
                     break;
                 case 1:
                     leadTime = 5;
-                    blurb += " -" + getString(R.string.lead_time_5min_short);
+                    blurb.append(" -").append(getString(R.string.lead_time_5min_short));
                     break;
                 case 2:
                     leadTime = 10;
-                    blurb += " -" + getString(R.string.lead_time_10min_short);
+                    blurb.append(" -").append(getString(R.string.lead_time_10min_short));
                     break;
                 default:
                     Log.w(Constants.LOG_TAG, "Fell through switch statement"); //$NON-NLS-1$
@@ -226,7 +240,7 @@ public class EditConditionActivity extends Activity {
             String exclusions = ((EditText) findViewById(R.id.exclusions)).getText().toString();
             storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_EXCLUSION, exclusions);
             storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, ((CheckBox) findViewById(R.id.allDayCheckbox)).isChecked());
-            returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb);
+            returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb.toString());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
             setResult(RESULT_OK, returnIntent);
         }

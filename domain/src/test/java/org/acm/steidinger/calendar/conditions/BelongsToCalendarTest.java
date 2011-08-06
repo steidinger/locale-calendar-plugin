@@ -4,6 +4,7 @@ import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.Condition;
 import org.junit.Test;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -19,7 +20,7 @@ public class BelongsToCalendarTest {
 
     @Test
     public void matches_shouldReturnFalseForEntryWithDifferentCalendarID() {
-        condition = new BelongsToCalendar(new String[] {CALENDAR_ONE});
+        condition = new BelongsToCalendar(CALENDAR_ONE);
 
         boolean match = condition.matches(entryWithId(CALENDAR_TWO));
 
@@ -28,7 +29,7 @@ public class BelongsToCalendarTest {
 
     @Test
     public void matches_shouldReturnTrueForEntryWithCalendarIdInExpectedIds() {
-        condition = new BelongsToCalendar(new String[] {CALENDAR_ONE, CALENDAR_TWO});
+        condition = new BelongsToCalendar(newArrayList(CALENDAR_ONE, CALENDAR_TWO));
 
         boolean match = condition.matches(entryWithId(CALENDAR_TWO));
 
@@ -37,7 +38,7 @@ public class BelongsToCalendarTest {
 
     @Test
     public void matches_shouldReturnTrueForEntryWithExpectedSingleCalendarID() {
-        condition = new BelongsToCalendar(new String[] {CALENDAR_ONE});
+        condition = new BelongsToCalendar(CALENDAR_ONE);
 
         boolean match = condition.matches(entryWithId(CALENDAR_ONE));
 

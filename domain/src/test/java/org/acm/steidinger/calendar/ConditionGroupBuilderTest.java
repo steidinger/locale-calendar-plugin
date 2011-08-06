@@ -21,6 +21,7 @@ import org.hamcrest.Description;
 import org.junit.Test;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -133,15 +134,15 @@ public class ConditionGroupBuilderTest {
         };
     }
 
-    public static TypeSafeMatcher<Condition> hasCalendarIds(final String[] expectedIds) {
+    public static TypeSafeMatcher<Condition> hasCalendarIds(final ArrayList<String> expectedIds) {
         return new TypeSafeMatcher<Condition>() {
             @Override
             public boolean matchesSafely(Condition condition) {
-                return condition instanceof BelongsToCalendar && Arrays.equals(((BelongsToCalendar) condition).ids, expectedIds);
+                return condition instanceof BelongsToCalendar && expectedIds.equals(((BelongsToCalendar) condition).ids);
             }
 
             public void describeTo(Description description) {
-                description.appendText("BelongsToCalendar with ids " + Arrays.toString(expectedIds));
+                description.appendText("BelongsToCalendar with ids " + expectedIds);
             }
         };
     }

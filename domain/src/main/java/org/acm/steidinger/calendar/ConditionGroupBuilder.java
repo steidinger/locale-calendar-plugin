@@ -5,6 +5,8 @@ import org.acm.steidinger.calendar.conditions.DoesNotContainText;
 import org.acm.steidinger.calendar.conditions.NotAllDayEvent;
 import org.acm.steidinger.calendar.conditions.TimeCondition;
 
+import java.util.ArrayList;
+
 public class ConditionGroupBuilder {
     private ConditionGroup group;
 
@@ -17,7 +19,12 @@ public class ConditionGroupBuilder {
     }
 
     public ConditionGroupBuilder withCalendarId(String id) {
-        group.conditions.add(0, new BelongsToCalendar(new String[] { id }));
+        group.conditions.add(0, new BelongsToCalendar(id));
+        return this;
+    }
+
+    public ConditionGroupBuilder withCalendarIds(ArrayList<String> ids) {
+        group.conditions.add(0, new BelongsToCalendar(ids));
         return this;
     }
 

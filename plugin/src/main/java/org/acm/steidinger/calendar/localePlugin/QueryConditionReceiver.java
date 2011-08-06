@@ -24,6 +24,7 @@ import org.acm.steidinger.calendar.CalendarProvider;
 import org.acm.steidinger.calendar.ConditionGroup;
 import org.acm.steidinger.calendar.ConditionGroupBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QueryConditionReceiver extends BroadcastReceiver {
@@ -36,35 +37,46 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         }
         EditConditionActivity.preventCustomSerializableAttack(intent);
         final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
-        if (!bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_STATE) || !bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_ID)) {
+        if (!bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_STATE) ||
+                (!bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_ID) && !bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_IDS))) {
             Log.e(Constants.LOG_TAG, "Missing param in Bundle"); //$NON-NLS-1$
             return;
         }
         boolean checkIfBooked = bundle.getBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
-        String id = bundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID);
+        ArrayList<String> ids = null;
+        if (bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_IDS)) {
+            ids = bundle.getStringArrayList(Constants.BUNDLE_EXTRA_CALENDAR_IDS);
+        }
+        if (ids == null && bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_ID)) {
+            ids = new ArrayList<String>(1);
+            ids.add(bundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID));
+        }
         ConditionGroup condition = ConditionGroupBuilder.all()
-                .withCalendarId(id)
+                .withCalendarIds(ids)
                 .withLeadTimeInMinutes(bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5))
                 .ignoringAllDayEvents(bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true))
                 .notContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION))
                 .build();
         debug("Conditions:" + condition);
-        if (id == null) {
+        if (ids == null || ids.isEmpty()) {
             return;
         }
-        List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
-        debug(String.format("Checking %d calendar entries", entries.size()));
-        boolean isBooked = condition.anyMatch(entries);
-        if (checkIfBooked && isBooked) {
-            debug("Found calendar entry -> Condition true");
-            setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
-        } else if (!checkIfBooked && !isBooked) {
-            debug("Did not find calendar entry -> Condition true");
-            setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
-        } else {
-            debug("Condition false");
-            setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED);
+        for (String id: ids) {
+            List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
+            debug(String.format("Checking %d calendar entries", entries.size()));
+            boolean isBooked = condition.anyMatch(entries);
+            if (checkIfBooked && isBooked) {
+                debug("Found calendar entry -> Condition true");
+                setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
+                return;
+            } else if (!checkIfBooked && !isBooked) {
+                debug("Did not find calendar entry -> Condition true");
+                setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
+                return;
+            }
         }
+        debug("Condition false");
+        setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED);
     }
 
 

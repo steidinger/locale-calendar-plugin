@@ -18,9 +18,10 @@ public interface Constants
 	String LOG_TAG = "CalendarCondition";
     String BUNDLE_EXTRA_CALENDAR_STATE = "org.acm.steidinger.calendar.localePlugin.extra.STATE";
     String BUNDLE_EXTRA_CALENDAR_ID = "org.acm.steidinger.calendar.localePlugin.extra.ID";
+    String BUNDLE_EXTRA_CALENDAR_IDS = "org.acm.steidinger.calendar.localePlugin.extra.IDS";
     String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
     String BUNDLE_EXTRA_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.EXCLUSION";
     String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";
     boolean IS_LOGGABLE = true;
-    boolean IS_DEBUG = true;
+    boolean IS_DEBUG = false;
 }

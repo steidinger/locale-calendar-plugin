@@ -34,8 +34,6 @@ public class MyActivity extends Activity {
         ArrayAdapter<CalendarInfo> adapter = new ArrayAdapter<CalendarInfo>(this, android.R.layout.simple_spinner_item,
                 calendars.toArray(new CalendarInfo[calendars.size()]));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
-        calendarSpinner.setAdapter(adapter);
         final Spinner spinner = (Spinner) findViewById(R.id.calendarStateSpinner);
         final ArrayAdapter<String> states= new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_spinner_item, new String[] {
@@ -48,15 +46,6 @@ public class MyActivity extends Activity {
 
     @Override
     public void finish() {
-        Spinner calendarSpinner = (Spinner) findViewById(R.id.calendarSpinner);
-        if (calendarSpinner != null) {
-            CalendarInfo info = (CalendarInfo) calendarSpinner.getSelectedItem();
-            if (info == null) {
-                Log.d(Constants.LOG_TAG, "No calendar selected");
-            } else {
-                Log.d(Constants.LOG_TAG, "Calendar selected: " + info);
-            }
-        }
         final Spinner spinner = (Spinner) findViewById(R.id.calendarStateSpinner);
         if (spinner != null) {
             boolean booked = getString(R.string.booked).equals(spinner.getSelectedItem());
