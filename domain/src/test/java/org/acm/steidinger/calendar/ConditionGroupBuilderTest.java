@@ -15,6 +15,7 @@
 package org.acm.steidinger.calendar;
 
 import org.acm.steidinger.calendar.conditions.BelongsToCalendar;
+import org.acm.steidinger.calendar.conditions.DoesContainText;
 import org.acm.steidinger.calendar.conditions.DoesNotContainText;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
@@ -78,6 +79,49 @@ public class ConditionGroupBuilderTest {
     }
 
     @Test
+    public void builderContainingWords_withNull_shouldNotAddCondition() {
+        ConditionGroup group = ConditionGroupBuilder.all().containingWords(null).build();
+
+        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+    }
+
+    @Test
+    public void builderContainingWords_withEmptyString_shouldNotAddCondition() {
+        ConditionGroup group = ConditionGroupBuilder.all().containingWords("").build();
+
+        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+    }
+
+    @Test
+    public void builderContainingWords_withSeparatorOnly_shouldNotAddCondition() {
+        ConditionGroup group = ConditionGroupBuilder.all().containingWords(",").build();
+
+        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+    }
+
+    @Test
+    public void builderContainingWords_withSeparatorAndSpacesOnly_shouldNotAddCondition() {
+        ConditionGroup group = ConditionGroupBuilder.all().containingWords(" ,  ").build();
+
+        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+    }
+
+    @Test
+    public void builderContainingWords_withSingleWord_shouldAddCondition() {
+        ConditionGroup group = ConditionGroupBuilder.all().containingWords("test").build();
+
+        assertThat(group, hasConditionOfType(DoesContainText.class));
+    }
+
+    @Test
+    public void builderContainingWords_withTwoWords_shouldAddTwoConditions() {
+        ConditionGroup group = ConditionGroupBuilder.all().containingWords("test, another").build();
+
+        List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(DoesContainText.class)));
+        assertThat(textConditions, hasItems(withText("test"), withText("another")));
+    }
+
+    @Test
     public void builderWithCalendarIdNull_shouldAddConditionWithNoCalendarId() {
         ConditionGroup group = ConditionGroupBuilder.all().withCalendarId(null).build();
 
@@ -105,7 +149,8 @@ public class ConditionGroupBuilderTest {
         return new TypeSafeMatcher<Condition>() {
             @Override
             public boolean matchesSafely(Condition condition) {
-                return condition instanceof DoesNotContainText && ((DoesNotContainText) condition).text.equals(expectedText);
+                return (condition instanceof DoesNotContainText && ((DoesNotContainText) condition).text.equals(expectedText))
+                || (condition instanceof DoesContainText && ((DoesContainText) condition).text.equals(expectedText));
             }
 
             public void describeTo(Description description) {

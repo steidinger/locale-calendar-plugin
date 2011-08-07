@@ -74,7 +74,6 @@ public class EditConditionActivity extends Activity {
             CheckBox box = (CheckBox) inflater.inflate(R.layout.calendar_line, null);
             box.setText(calendar.name);
             box.setTextColor(Color.BLACK);
-            Log.d(Constants.LOG_TAG, box.toString() + ": " + calendar.name);
             calendarGroup.addView(box);
             calendarCheckBoxes.add(box);
         }
@@ -119,6 +118,10 @@ public class EditConditionActivity extends Activity {
                 String exclusions = forwardedBundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
                 if (exclusions != null) {
                     ((EditText) findViewById(R.id.exclusions)).setText(exclusions);
+                }
+                String inclusions = forwardedBundle.getString(Constants.BUNDLE_EXTRA_INCLUSION);
+                if (inclusions != null) {
+                    ((EditText) findViewById(R.id.inclusions)).setText(inclusions);
                 }
                 boolean ignoreAllDayEvents = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
                 ((CheckBox) findViewById(R.id.allDayCheckbox)).setChecked(ignoreAllDayEvents);
@@ -211,6 +214,8 @@ public class EditConditionActivity extends Activity {
             storeAndForwardExtras.putInt(Constants.BUNDLE_EXTRA_LEAD_TIME, leadTime);
             String exclusions = ((EditText) findViewById(R.id.exclusions)).getText().toString();
             storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_EXCLUSION, exclusions);
+            String inclusions = ((EditText) findViewById(R.id.inclusions)).getText().toString();
+            storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_INCLUSION, inclusions);
             storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, ((CheckBox) findViewById(R.id.allDayCheckbox)).isChecked());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb.toString());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);

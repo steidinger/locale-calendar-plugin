@@ -9,7 +9,7 @@ contains an entry.
 Compatibility
 -------------
 
-So far the application was only tested on Android 1.5. Since the emulator does not contain the Google apps and
+So far the application was only tested on Android 1.5 and 2.3. Since the emulator does not contain the Google apps and
 the calendar provider is therefore unavailable testing on different versions of Android is rather difficult.
 
 Features
@@ -17,4 +17,6 @@ Features
 A single calendar situation can check for the following conditions:
 - a calendar contains an appointment
 - the appointment's title does not contain one of a list of words
+- the appointment's title contains one of a list of words
 - the appointment has already started or starts in 5 or 10 minutes
+- the appointment does not span the whole day

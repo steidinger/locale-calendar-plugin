@@ -13,7 +13,8 @@
     <string name="lead_time_10min">10 minutes</string>
     <string name="lead_time_5min_short">5min</string>
     <string name="lead_time_10min_short">10min</string>
-    <string name="exclusion_prompt">Event title must not contain:</string>
+    <string name="exclusion_prompt">Title must not contain:</string>
+    <string name="inclusion_prompt">Title contains:</string>
     <string name="ignore_all_day_entries">Ignore all day events</string>
 
 

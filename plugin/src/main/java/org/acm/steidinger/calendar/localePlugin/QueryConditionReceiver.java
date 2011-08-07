@@ -37,9 +37,8 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         }
         EditConditionActivity.preventCustomSerializableAttack(intent);
         final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
-        if (!bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_STATE) ||
-                (!bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_ID) && !bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_IDS))) {
-            Log.e(Constants.LOG_TAG, "Missing param in Bundle"); //$NON-NLS-1$
+        if (!bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_ID) && !bundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_IDS)) {
+            Log.e(Constants.LOG_TAG, "Missing param in Bundle: Calendar not selected"); //$NON-NLS-1$
             return;
         }
         boolean checkIfBooked = bundle.getBoolean(Constants.BUNDLE_EXTRA_CALENDAR_STATE, true);
@@ -56,8 +55,9 @@ public class QueryConditionReceiver extends BroadcastReceiver {
                 .withLeadTimeInMinutes(bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5))
                 .ignoringAllDayEvents(bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true))
                 .notContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION))
+                .containingWords(bundle.getString(Constants.BUNDLE_EXTRA_INCLUSION))
                 .build();
-        debug("Conditions:" + condition);
+        debug("Check conditions:" + condition);
         if (ids == null || ids.isEmpty()) {
             return;
         }

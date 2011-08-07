@@ -25,6 +25,20 @@
 
         </LinearLayout>
 
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:textSize="10pt"
+                  android:text="@string/inclusion_prompt"/>
+        <EditText android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:id="@+id/inclusions"/>
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:textSize="10pt"
+                  android:text="@string/exclusion_prompt"/>
+        <EditText android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:id="@+id/exclusions"/>
         <LinearLayout android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
                       android:orientation="horizontal"
@@ -39,13 +53,6 @@
                      android:prompt="@string/lead_time"
                      android:id="@+id/leadTimeSpinner"/>
         </LinearLayout>
-        <TextView android:layout_height="wrap_content"
-                  android:layout_width="fill_parent"
-                  android:textSize="10pt"
-                  android:text="@string/exclusion_prompt"/>
-        <EditText android:layout_height="wrap_content"
-                  android:layout_width="fill_parent"
-                  android:id="@+id/exclusions"/>
         <CheckBox android:text="@string/ignore_all_day_entries"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"

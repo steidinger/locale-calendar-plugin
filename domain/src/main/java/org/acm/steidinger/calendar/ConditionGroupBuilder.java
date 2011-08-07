@@ -1,9 +1,6 @@
 package org.acm.steidinger.calendar;
 
-import org.acm.steidinger.calendar.conditions.BelongsToCalendar;
-import org.acm.steidinger.calendar.conditions.DoesNotContainText;
-import org.acm.steidinger.calendar.conditions.NotAllDayEvent;
-import org.acm.steidinger.calendar.conditions.TimeCondition;
+import org.acm.steidinger.calendar.conditions.*;
 
 import java.util.ArrayList;
 
@@ -45,6 +42,16 @@ public class ConditionGroupBuilder {
             String[] split = words.split("(,|\\s)+");
             for (String word : split) {
                 group.conditions.add(new DoesNotContainText(word));
+            }
+        }
+        return this;
+    }
+
+    public ConditionGroupBuilder containingWords(String words) {
+        if (words != null && words.trim().length() > 0) {
+            String[] split = words.split("(,|\\s)+");
+            for (String word : split) {
+                group.conditions.add(new DoesContainText(word));
             }
         }
         return this;
