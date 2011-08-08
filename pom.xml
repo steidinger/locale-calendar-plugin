@@ -5,7 +5,7 @@
 
     <groupId>org.acm.steidinger</groupId>
     <artifactId>android-calendar-plugin-parent</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>android-calendar-parent</name>
 
