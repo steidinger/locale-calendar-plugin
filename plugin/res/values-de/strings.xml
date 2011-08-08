@@ -16,4 +16,18 @@
     <string name="exclusion_prompt">Nicht in Titel enthalten:</string>
     <string name="inclusion_prompt">In Titel enthalten:</string>
     <string name="ignore_all_day_entries">Ganztägige Einträge ignorieren</string>
+
+    <string name="twofortyfouram_locale_application_not_available">Anwendung nicht installiert.</string>
+    <!-- The title of the MarketActivity.  MDPI 21 character maximum -->
+    <string name="twofortyfouram_locale_marketactivity_dialog_title"><i>Locale</i> benötigt</string>
+
+    <!-- The button that performs a search for the app on the Market or on <www.twofortyfouram.com>.  MDPI 17 character maximum -->
+    <string name="twofortyfouram_locale_marketactivity_dialog_button_install">Installieren</string>
+
+    <!-- The primary message of the MarketActivity dialog.  There is no character length maximum -->
+    <string name="twofortyfouram_locale_marketactivity_dialog_primary_message">Um dieses Plugin verwenden zu können, muss <i>Locale</i> oder eine dazu kompatible App installiert sein.  Wollen Sie <i>Locale</i> installieren?</string>
+
+     <!-- The secondary message of the MarketActivity dialog.  The word "Install" should match the twofortyfouram_locale_marketactivity_dialog_button_install string.  There is no character length maximum -->
+    <string name="twofortyfouram_locale_marketactivity_dialog_secondary_message">Drücken Sie  \"Installieren\" um <i>Locale</i> im Android Market zu suchen.</string>
+
 </resources>
