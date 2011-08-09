@@ -18,6 +18,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import org.acm.steidinger.calendar.localePlugin.Constants;
 
@@ -60,11 +61,11 @@ public class CalendarProvider {
         return calendars;
     }
 
-    public static List<CalendarEntry> getNextCalendarEntries(Context context, String calendarID) {
-        return getNextCalendarEntries(context, calendarID, 1);
+    public static List<CalendarEntry> getNextCalendarEntries(Context context, ArrayList<String> calendarIds) {
+        return getNextCalendarEntries(context, calendarIds, 1);
     }
 
-    public static List<CalendarEntry> getNextCalendarEntries(Context context, String calendarID, int days) {
+    public static List<CalendarEntry> getNextCalendarEntries(Context context, ArrayList<String> calendarIds, int days) {
 
         ContentResolver contentResolver = context.getContentResolver();
         List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
@@ -73,16 +74,29 @@ public class CalendarProvider {
         long now = new Date().getTime();
         ContentUris.appendId(builder, now);
         ContentUris.appendId(builder, now + (days * DateUtils.DAY_IN_MILLIS));
-
+        String selection;
+        if (calendarIds.isEmpty()) {
+            selection = "calendar_id is null"; // will always be false
+        }
+        else if (calendarIds.size() == 1) {
+            selection = "calendar_id = " + calendarIds.get(0);
+        }
+        else {
+            selection = "calendar_id in (" + TextUtils.join(",", calendarIds) + ")";
+        }
         Cursor eventCursor = contentResolver.query(builder.build(),
-                new String[]{"title", "begin", "end", "allDay"}, "Calendars._id=" + calendarID,
+                new String[]{"title", "begin", "end", "allDay", "calendar_id"}, selection,
                 null, "startDay ASC, startMinute ASC");
         // For a full list of available columns see http://tinyurl.com/yfbg76w
 
         if (eventCursor != null) {
             try {
                 while (eventCursor.moveToNext()) {
-                    entries.add(new CalendarEntry(calendarID, eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3)));
+
+                    CalendarEntry entry = new CalendarEntry(eventCursor.getString(4), eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3));
+                    if (calendarIds.contains(entry.calendarID)) {
+                        entries.add(entry);
+                    }
                 }
             } finally {
                 eventCursor.close();

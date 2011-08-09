@@ -61,22 +61,19 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         if (ids == null || ids.isEmpty()) {
             return;
         }
-        for (String id: ids) {
-            List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, id);
-            debug(String.format("Checking %d calendar entries", entries.size()));
-            boolean isBooked = condition.anyMatch(entries);
-            if (checkIfBooked && isBooked) {
-                debug("Found calendar entry -> Condition true");
-                setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
-                return;
-            } else if (!checkIfBooked && !isBooked) {
-                debug("Did not find calendar entry -> Condition true");
-                setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
-                return;
-            }
+        List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, ids);
+        debug(String.format("Checking %d calendar entries", entries.size()));
+        boolean isBooked = condition.anyMatch(entries);
+        if (checkIfBooked && isBooked) {
+            debug("Found calendar entry -> Condition true");
+            setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
+        } else if (!checkIfBooked && !isBooked) {
+            debug("Did not find calendar entry -> Condition true");
+            setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
+        } else {
+            debug("Condition false");
+            setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED);
         }
-        debug("Condition false");
-        setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED);
     }
 
 

@@ -31,6 +31,6 @@ public class PreviewActivity extends Activity {
         String id = conditions.getCalendarIds().size() < 1 ? null : conditions.getCalendarIds().get(0);
         ((TextView) this.findViewById(R.id.preview_condition)).setText(conditions.toString());
         ((ListView) this.findViewById(R.id.preview_entries)).setAdapter(new CalendarAdapter(this,
-                CalendarProvider.getNextCalendarEntries(this, id, 5), conditions));
+                CalendarProvider.getNextCalendarEntries(this, conditions.getCalendarIds(), 5), conditions));
     }
 }

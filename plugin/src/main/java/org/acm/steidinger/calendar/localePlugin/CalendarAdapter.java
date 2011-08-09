@@ -57,6 +57,9 @@ public class CalendarAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.preview_entry, null);
         }
+        // todo: optimize performance
+        // todo: use relative layout
+        // todo: use dialog instead of activity?
         ((TextView) view.findViewById(R.id.preview_date)).setText(DateUtils.formatDate(entry.begin, "dd.MM HH:mm"));
         ((TextView) view.findViewById(R.id.preview_title)).setText(entry.title);
         ((CheckBox) view.findViewById(R.id.preview_match)).setChecked(conditions.matches(entry));
