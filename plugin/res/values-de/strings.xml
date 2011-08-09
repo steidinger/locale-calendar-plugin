@@ -16,6 +16,10 @@
     <string name="exclusion_prompt">Nicht in Titel enthalten:</string>
     <string name="inclusion_prompt">In Titel enthalten:</string>
     <string name="ignore_all_day_entries">Ganztägige Einträge ignorieren</string>
+    <string name="menu_save">Speichern</string>
+    <string name="menu_cancel">Verwerfen</string>
+    <string name="menu_help">Hilfe</string>
+    <string name="menu_preview">Testen</string>
 
     <string name="twofortyfouram_locale_application_not_available">Anwendung nicht installiert.</string>
     <!-- The title of the MarketActivity.  MDPI 21 character maximum -->

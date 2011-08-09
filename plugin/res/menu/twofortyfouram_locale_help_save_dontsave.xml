@@ -24,7 +24,11 @@
     <item
         android:id="@+id/twofortyfouram_locale_menu_help"
         android:icon="@android:drawable/ic_menu_help" 
-        android:title="Help" />
+        android:title="@string/menu_help" />
+
+    <item android:id="@+id/menu_preview"
+          android:title="@string/menu_preview" />
+
     <!--
         Menu item to cancel the result. This should set the Activity result to
         RESULT_CANCELED and immediately finish the Activity
@@ -32,7 +36,7 @@
     <item
         android:id="@+id/twofortyfouram_locale_menu_dontsave"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:title="Don\'t Save"/>
+        android:title="@string/menu_cancel"/>
     <!--
         Menu item to save the result. This should set the Activity result to RESULT_OK,
         with proper blurb and bundle extras, and immediately finish the Activity
@@ -40,5 +44,5 @@
     <item
         android:id="@+id/twofortyfouram_locale_menu_save"
         android:icon="@android:drawable/ic_menu_save"
-        android:title="Save" />
+        android:title="@string/menu_save" />
 </menu>

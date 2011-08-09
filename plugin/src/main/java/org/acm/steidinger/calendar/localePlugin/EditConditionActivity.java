@@ -21,13 +21,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.*;
-
 import com.twofortyfouram.locale.BreadCrumber;
 import com.twofortyfouram.locale.SharedResources;
 import org.acm.steidinger.calendar.CalendarInfo;
 import org.acm.steidinger.calendar.CalendarProvider;
+import org.acm.steidinger.calendar.ConditionGroup;
+import org.acm.steidinger.calendar.ConditionGroupBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -284,6 +288,12 @@ public class EditConditionActivity extends Activity {
     @Override
     public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_preview: {
+                Intent intent = new Intent(this, PreviewActivity.class);
+                intent.putExtra("conditions", buildConditionGroup());
+                startActivity(intent);
+                return true;
+            }
             case R.id.twofortyfouram_locale_menu_help: {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(HELP_URL)));
@@ -305,5 +315,21 @@ public class EditConditionActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private ConditionGroup buildConditionGroup() {
+        ArrayList<String> selectedCalendarIds = new ArrayList<String>(calendarCheckBoxes.size());
+        for (int i = 0; i < calendarCheckBoxes.size(); i++) {
+            if (calendarCheckBoxes.get(i).isChecked()) {
+                selectedCalendarIds.add(calendars.get(i).id);
+            }
+        }
+        return ConditionGroupBuilder
+                .all()
+                .withCalendarIds(selectedCalendarIds)
+                .containingWords(((TextView) this.findViewById(R.id.inclusions)).getText().toString())
+                .notContainingWords(((TextView) this.findViewById(R.id.exclusions)).getText().toString())
+                .ignoringAllDayEvents(((CheckBox) this.findViewById(R.id.allDayCheckbox)).isChecked())
+                .build();
     }
 }

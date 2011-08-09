@@ -1,8 +1,8 @@
 package org.acm.steidinger.calendar;
 
-import org.acm.steidinger.calendar.CalendarEntry;
+import java.io.Serializable;
 
-public abstract class Condition {
+public abstract class Condition implements Serializable{
     public abstract boolean matches(CalendarEntry entry);
 
 }

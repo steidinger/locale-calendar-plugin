@@ -24,16 +24,20 @@
                 android:label="@string/setting_name"
                 android:icon="@drawable/calendar"
                 android:exported="true" >
-<!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
--->
                 <intent-filter>
                     <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
                 </intent-filter>
           </activity>
+        <activity android:name=".PreviewActivity" android:label="@string/preview_title">
+            <intent-filter>
+                <action android:name="org.acm.steidinger.localePlugin.action.PREVIEW" />
+                <data android:mimeType="vnd.org.acm.steidinger.localePlugin.calendar/condition" />
+            </intent-filter>
+        </activity>
           <!-- Listen for the "query" action-->
           <receiver android:name=".QueryConditionReceiver" >
               <intent-filter>

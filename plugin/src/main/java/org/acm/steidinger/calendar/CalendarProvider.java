@@ -61,6 +61,10 @@ public class CalendarProvider {
     }
 
     public static List<CalendarEntry> getNextCalendarEntries(Context context, String calendarID) {
+        return getNextCalendarEntries(context, calendarID, 1);
+    }
+
+    public static List<CalendarEntry> getNextCalendarEntries(Context context, String calendarID, int days) {
 
         ContentResolver contentResolver = context.getContentResolver();
         List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
@@ -68,7 +72,7 @@ public class CalendarProvider {
         Uri.Builder builder = providerUri("/instances/when").buildUpon();
         long now = new Date().getTime();
         ContentUris.appendId(builder, now);
-        ContentUris.appendId(builder, now + DateUtils.DAY_IN_MILLIS);
+        ContentUris.appendId(builder, now + (days * DateUtils.DAY_IN_MILLIS));
 
         Cursor eventCursor = contentResolver.query(builder.build(),
                 new String[]{"title", "begin", "end", "allDay"}, "Calendars._id=" + calendarID,
