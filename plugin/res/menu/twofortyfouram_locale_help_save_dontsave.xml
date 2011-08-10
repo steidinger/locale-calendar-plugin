@@ -27,6 +27,7 @@
         android:title="@string/menu_help" />
 
     <item android:id="@+id/menu_preview"
+          android:icon="@drawable/ic_menu_my_calendar"
           android:title="@string/menu_preview" />
 
     <!--

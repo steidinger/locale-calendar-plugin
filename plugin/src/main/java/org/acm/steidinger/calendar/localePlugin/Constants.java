@@ -24,9 +24,6 @@ public interface Constants
     String BUNDLE_EXTRA_INCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.INCLUSION";
     String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";
 
-    String INTENT_PREVIEW = "org.acm.steidinger.localePlugin.action.PREVIEW";
-    String MIME_TYPE_PREVIEW = "vnd.org.acm.steidinger.localePlugin.calendar/condition";
-
     boolean IS_LOGGABLE = true;
     boolean IS_DEBUG = false;
 }
