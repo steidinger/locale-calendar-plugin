@@ -13,6 +13,7 @@
 package org.acm.steidinger.calendar.localePlugin;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -289,9 +290,14 @@ public class EditConditionActivity extends Activity {
     public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_preview: {
-                Intent intent = new Intent(this, PreviewActivity.class);
-                intent.putExtra("conditions", buildConditionGroup());
-                startActivity(intent);
+                Dialog preview = new Dialog(this);
+                preview.setContentView(R.layout.filter_preview);
+                ConditionGroup conditions = buildConditionGroup();
+                ((TextView) preview.findViewById(R.id.preview_condition)).setText(conditions.toString());
+                ((ListView) preview.findViewById(R.id.preview_entries)).setAdapter(new CalendarAdapter(this,
+                        CalendarProvider.getNextCalendarEntries(this, conditions.getCalendarIds(), 5), conditions));
+                preview.setTitle(R.string.preview_title);
+                preview.show();
                 return true;
             }
             case R.id.twofortyfouram_locale_menu_help: {

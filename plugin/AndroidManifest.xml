@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.acm.steidinger.calendar.localePlugin"
-      android:versionCode="8"
-      android:versionName="0.5.0">
+      android:versionCode="9"
+      android:versionName="0.5.1">
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-sdk android:minSdkVersion="3" />
 
@@ -32,12 +32,6 @@
                     <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
                 </intent-filter>
           </activity>
-        <activity android:name=".PreviewActivity" android:label="@string/preview_title">
-            <intent-filter>
-                <action android:name="org.acm.steidinger.localePlugin.action.PREVIEW" />
-                <data android:mimeType="vnd.org.acm.steidinger.localePlugin.calendar/condition" />
-            </intent-filter>
-        </activity>
           <!-- Listen for the "query" action-->
           <receiver android:name=".QueryConditionReceiver" >
               <intent-filter>

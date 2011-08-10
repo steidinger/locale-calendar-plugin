@@ -25,17 +25,22 @@ import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.ConditionGroup;
 import org.apache.http.impl.cookie.DateUtils;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class CalendarAdapter extends BaseAdapter {
     private final List<CalendarEntry> entries;
     private final Context context;
     private final ConditionGroup conditions;
+    private final DateFormat dateFormat;
+    private final DateFormat timeFormat;
 
     public CalendarAdapter(Context context, List<CalendarEntry> entries, ConditionGroup conditions) {
         this.entries = entries;
         this.context = context;
         this.conditions = conditions;
+        this.dateFormat = android.text.format.DateFormat.getDateFormat(context);
+        this.timeFormat = android.text.format.DateFormat.getTimeFormat(context);
     }
 
     public int getCount() {
@@ -57,10 +62,11 @@ public class CalendarAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.preview_entry, null);
         }
-        // todo: optimize performance
-        // todo: use relative layout
-        // todo: use dialog instead of activity?
-        ((TextView) view.findViewById(R.id.preview_date)).setText(DateUtils.formatDate(entry.begin, "dd.MM HH:mm"));
+        String date = dateFormat.format(entry.begin);
+        if (!entry.allDay) {
+            date += " " + timeFormat.format(entry.begin) + "-" + timeFormat.format(entry.end);
+        }
+        ((TextView) view.findViewById(R.id.preview_date)).setText(date);
         ((TextView) view.findViewById(R.id.preview_title)).setText(entry.title);
         ((CheckBox) view.findViewById(R.id.preview_match)).setChecked(conditions.matches(entry));
         return view;
