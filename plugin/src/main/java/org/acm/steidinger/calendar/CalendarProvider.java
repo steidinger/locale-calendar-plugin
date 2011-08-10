@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.format.Time;
 import org.acm.steidinger.calendar.localePlugin.Constants;
 
 import java.util.ArrayList;
@@ -66,7 +67,9 @@ public class CalendarProvider {
     }
 
     public static List<CalendarEntry> getNextCalendarEntries(Context context, ArrayList<String> calendarIds, int days) {
-
+        if (Constants.IS_DEBUG) {
+            return getDummyEntries();
+        }
         ContentResolver contentResolver = context.getContentResolver();
         List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
 
@@ -108,5 +111,21 @@ public class CalendarProvider {
     private static List<CalendarInfo> getDummyCalendars() {
         return Arrays.asList(new CalendarInfo("dummy1", "Test Calendar", "1"),
                 new CalendarInfo("dummy2", "Second Test Calendar", "1"));
+    }
+
+    private static List<CalendarEntry> getDummyEntries() {
+        final long now = System.currentTimeMillis();
+        final long hourInMillis = 3600 * 1000;
+        return Arrays.asList(new CalendarEntry("dummy1", now, now + hourInMillis, "Test Entry", 0),
+                new CalendarEntry("dummy1", now + 2 * hourInMillis, now + 3 * hourInMillis, "Test Entry 2", 0),
+                new CalendarEntry("dummy1", today(), today(), "Bank Holiday", 1)
+        );
+    }
+
+    private static long today() {
+        Time time = new Time();
+        time.setToNow();
+        time.set(0, 0, 0, time.monthDay, time.month, time.year);
+        return time.toMillis(false);
     }
 }
