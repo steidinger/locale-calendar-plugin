@@ -20,7 +20,7 @@
     <string name="menu_save">Save</string>
     <string name="menu_cancel">Don\'t Save</string>
     <string name="menu_help">Help</string>
-    <string name="menu_preview">Preview</string>
+    <string name="menu_preview">Preview Matching Entries</string>
 
 
     <!-- A toast message that appears if an application that is being launched isn't available.  There is no character length maximum, although this message will only appear on the screen for about 5 seconds in a Toast message so it should be short enough to be comprehended before it disappears -->

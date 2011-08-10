@@ -20,7 +20,7 @@
     <string name="menu_cancel">Verwerfen</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_preview">Testen</string>
-    <string name="preview_title">Passende Einträge</string>
+    <string name="preview_title">Passende Einträge - Vorschau</string>
     <string name="twofortyfouram_locale_application_not_available">Anwendung nicht installiert.</string>
     <!-- The title of the MarketActivity.  MDPI 21 character maximum -->
     <string name="twofortyfouram_locale_marketactivity_dialog_title"><i>Locale</i> benötigt</string>

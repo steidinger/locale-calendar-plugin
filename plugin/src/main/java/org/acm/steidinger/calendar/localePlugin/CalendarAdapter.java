@@ -64,7 +64,13 @@ public class CalendarAdapter extends BaseAdapter {
         }
         String date = dateFormat.format(entry.begin);
         if (!entry.allDay) {
-            date += " " + timeFormat.format(entry.begin) + "-" + timeFormat.format(entry.end);
+            date += " " + timeFormat.format(entry.begin) + " - " + timeFormat.format(entry.end);
+        }
+        else {
+            String endDate = dateFormat.format(entry.end);
+            if (!endDate.equals(date)) {
+                date += " - " + endDate;
+            }
         }
         ((TextView) view.findViewById(R.id.preview_date)).setText(date);
         ((TextView) view.findViewById(R.id.preview_title)).setText(entry.title);

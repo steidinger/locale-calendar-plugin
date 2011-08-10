@@ -293,7 +293,7 @@ public class EditConditionActivity extends Activity {
                 Dialog preview = new Dialog(this);
                 preview.setContentView(R.layout.filter_preview);
                 ConditionGroup conditions = buildConditionGroup();
-                ((TextView) preview.findViewById(R.id.preview_condition)).setText(conditions.toString());
+//                ((TextView) preview.findViewById(R.id.preview_condition)).setText(conditions.toString());
                 ((ListView) preview.findViewById(R.id.preview_entries)).setAdapter(new CalendarAdapter(this,
                         CalendarProvider.getNextCalendarEntries(this, conditions.getCalendarIds(), 5), conditions));
                 preview.setTitle(R.string.preview_title);
