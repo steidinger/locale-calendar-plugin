@@ -30,6 +30,7 @@ public class NotAllDayEventTest {
     }
 
     private CalendarEntry entry(int allDay) {
-        return  new CalendarEntry("any", System.currentTimeMillis(), System.currentTimeMillis(), "title", allDay);
+        return new CalendarEntry("any", System.currentTimeMillis(), System.currentTimeMillis(), "title", "description",
+                "location", allDay, CalendarEntry.STATUS_BUSY);
     }
 }

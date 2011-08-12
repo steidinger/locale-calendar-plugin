@@ -14,18 +14,28 @@ package org.acm.steidinger.calendar;
 import java.util.Date;
 
 public class CalendarEntry {
+    public static final int STATUS_FREE = 1;
+    public static final int STATUS_BUSY = 2;
+
     public final String calendarID;
     public final Date begin;
     public final Date end;
     public final String title;
+    public final String description;
+    public final String location;
     public final boolean allDay;
+    public final int status;
 
-    public CalendarEntry(String calendarID, long begin, long end, String title, int allDay) {
+    public CalendarEntry(String calendarID, long begin, long end, String title, String description,
+                         String location, int allDay, int eventStatus) {
         this.calendarID = calendarID;
         this.begin = new Date(begin);
         this.end = new Date(end);
         this.title = title;
+        this.description = description;
+        this.location = location;
         this.allDay = allDay == 1;
+        this.status = eventStatus;
     }
 
     @Override

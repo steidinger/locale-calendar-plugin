@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(Enclosed.class)
 public class TimeConditionTest {
     static CalendarEntry entry(long start, long end) {
-        return new CalendarEntry("anyId", start, end, "title", 0);
+        return new CalendarEntry("anyId", start, end, "title", "description", "location", 0, CalendarEntry.STATUS_BUSY);
     }
 
     static long now() {

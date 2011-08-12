@@ -59,6 +59,7 @@ public class DoesContainTextTest {
     }
 
     private CalendarEntry entry(String text) {
-        return new CalendarEntry("any", System.currentTimeMillis(), System.currentTimeMillis(), text, 0);
+        return new CalendarEntry("any", System.currentTimeMillis(), System.currentTimeMillis(), text, "description",
+                "location", 0, CalendarEntry.STATUS_BUSY);
     }
 }

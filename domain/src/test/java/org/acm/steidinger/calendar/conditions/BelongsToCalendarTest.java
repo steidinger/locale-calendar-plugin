@@ -15,7 +15,8 @@ public class BelongsToCalendarTest {
 
 
     private CalendarEntry entryWithId(String id) {
-        return new CalendarEntry(id, System.currentTimeMillis(),  System.currentTimeMillis(), "title", 0);
+        return new CalendarEntry(id, System.currentTimeMillis(),  System.currentTimeMillis(), "title", "description",
+                "location", 0, CalendarEntry.STATUS_BUSY);
     }
 
     @Test

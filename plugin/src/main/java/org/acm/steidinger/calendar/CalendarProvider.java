@@ -88,7 +88,8 @@ public class CalendarProvider {
             selection = "calendar_id in (" + TextUtils.join(",", calendarIds) + ")";
         }
         Cursor eventCursor = contentResolver.query(builder.build(),
-                new String[]{"title", "begin", "end", "allDay", "calendar_id"}, selection,
+                new String[]{"title", "begin", "end", "allDay", "calendar_id", "eventLocation", "description", "eventStatus"},
+                selection,
                 null, "startDay ASC, startMinute ASC");
         // For a full list of available columns see http://tinyurl.com/yfbg76w
 
@@ -96,7 +97,14 @@ public class CalendarProvider {
             try {
                 while (eventCursor.moveToNext()) {
 
-                    CalendarEntry entry = new CalendarEntry(eventCursor.getString(4), eventCursor.getLong(1), eventCursor.getLong(2), eventCursor.getString(0), eventCursor.getInt(3));
+                    CalendarEntry entry = new CalendarEntry(eventCursor.getString(eventCursor.getColumnIndex("calendar_id")),
+                            eventCursor.getLong(eventCursor.getColumnIndex("begin")),
+                            eventCursor.getLong(eventCursor.getColumnIndex("end")),
+                            eventCursor.getString(eventCursor.getColumnIndex("title")),
+                            eventCursor.getString(eventCursor.getColumnIndex("description")),
+                            eventCursor.getString(eventCursor.getColumnIndex("eventLocation")),
+                            eventCursor.getInt(eventCursor.getColumnIndex("allDay")),
+                            eventCursor.getInt(eventCursor.getColumnIndex("eventStatus")));
                     if (calendarIds.contains(entry.calendarID)) {
                         entries.add(entry);
                     }
@@ -116,9 +124,9 @@ public class CalendarProvider {
     private static List<CalendarEntry> getDummyEntries() {
         final long now = System.currentTimeMillis();
         final long hourInMillis = 3600 * 1000;
-        return Arrays.asList(new CalendarEntry("dummy1", now, now + hourInMillis, "Test Entry", 0),
-                new CalendarEntry("dummy1", now + 2 * hourInMillis, now + 3 * hourInMillis, "Test Entry 2", 0),
-                new CalendarEntry("dummy1", today(), today(), "Bank Holiday", 1)
+        return Arrays.asList(new CalendarEntry("dummy1", now, now + hourInMillis, "Test Entry", "Description", "Somewhere", 0, CalendarEntry.STATUS_BUSY),
+                new CalendarEntry("dummy1", now + 2 * hourInMillis, now + 3 * hourInMillis, "Test Entry 2", null, "Location", 0, CalendarEntry.STATUS_FREE),
+                new CalendarEntry("dummy1", today(), today(), "Bank Holiday", null, null, 1, CalendarEntry.STATUS_FREE)
         );
     }
 
