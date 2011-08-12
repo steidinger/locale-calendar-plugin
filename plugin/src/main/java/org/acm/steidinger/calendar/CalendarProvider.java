@@ -88,7 +88,7 @@ public class CalendarProvider {
             selection = "calendar_id in (" + TextUtils.join(",", calendarIds) + ")";
         }
         Cursor eventCursor = contentResolver.query(builder.build(),
-                new String[]{"title", "begin", "end", "allDay", "calendar_id", "eventLocation", "description", "eventStatus"},
+                new String[]{"title", "begin", "end", "allDay", "calendar_id", "eventLocation", "description", "transparency"},
                 selection,
                 null, "startDay ASC, startMinute ASC");
         // For a full list of available columns see http://tinyurl.com/yfbg76w
@@ -104,7 +104,7 @@ public class CalendarProvider {
                             eventCursor.getString(eventCursor.getColumnIndex("description")),
                             eventCursor.getString(eventCursor.getColumnIndex("eventLocation")),
                             eventCursor.getInt(eventCursor.getColumnIndex("allDay")),
-                            eventCursor.getInt(eventCursor.getColumnIndex("eventStatus")));
+                            eventCursor.getInt(eventCursor.getColumnIndex("transparency")));
                     if (calendarIds.contains(entry.calendarID)) {
                         entries.add(entry);
                     }

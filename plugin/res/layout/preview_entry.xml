@@ -38,5 +38,23 @@
               android:textAppearance="?android:attr/textAppearanceSmall"
 
             />
+    <TextView android:id="@+id/preview_location"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/preview_date"
+              android:layout_toRightOf="@id/preview_match"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+
+            />
+    <TextView android:id="@+id/preview_status"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/preview_title"
+              android:layout_toRightOf="@id/preview_date"
+              android:layout_alignParentRight="true"
+              android:gravity="right"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+
+            />
 
 </RelativeLayout>

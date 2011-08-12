@@ -5,8 +5,8 @@
     <string name="calendar_prompt">Kalender wählen</string>
     <string name="calendar_state_prompt">Kalenderstatus wählen</string>
     <string name="setting_name">Kalender</string>
-    <string name="booked">gebucht</string>
-    <string name="free">frei</string>
+    <string name="status_busy">beschäftigt</string>
+    <string name="status_free">verfügbar</string>
     <string name="lead_time">Vorlaufzeit:</string>
     <string name="lead_time_0min">Keine Vorlaufzeit</string>
     <string name="lead_time_5min">5 Minuten</string>

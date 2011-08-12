@@ -73,6 +73,19 @@ public class CalendarAdapter extends BaseAdapter {
         }
         ((TextView) view.findViewById(R.id.preview_date)).setText(date);
         ((TextView) view.findViewById(R.id.preview_title)).setText(entry.title);
+        ((TextView) view.findViewById(R.id.preview_location)).setText(entry.location);
+        String status;
+        switch (entry.status) {
+            case 1:
+                status = context.getString(R.string.status_free);
+                break;
+            case 0:
+                status = context.getString(R.string.status_busy);
+                break;
+            default:
+                status = "" + entry.status;
+        }
+        ((TextView) view.findViewById(R.id.preview_status)).setText(status);
         ((CheckBox) view.findViewById(R.id.preview_match)).setChecked(conditions.matches(entry));
         return view;
     }

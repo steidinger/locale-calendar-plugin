@@ -5,8 +5,8 @@
     <string name="calendar_prompt">Choose Calendar</string>
     <string name="calendar_state_prompt">Choose Calendar Status</string>
     <string name="setting_name">Calendar</string>
-    <string name="booked">booked</string>
-    <string name="free">free</string>
+    <string name="status_busy">busy</string>
+    <string name="status_free">free</string>
     <string name="lead_time">Lead Time</string>
     <string name="lead_time_0min">No lead time</string>
     <string name="lead_time_5min">5 minutes</string>
