@@ -52,6 +52,7 @@ public class EditConditionActivity extends Activity {
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        Log.d(Constants.LOG_TAG, "onCreate: " + savedInstanceState);
         super.onCreate(savedInstanceState);
         preventCustomSerializableAttack(getIntent());
         setContentView(R.layout.main);
@@ -109,13 +110,7 @@ public class EditConditionActivity extends Activity {
                     selectedCalendarIds = new ArrayList<String>(1);
                     selectedCalendarIds.add(forwardedBundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID));
                 }
-                if (selectedCalendarIds != null && !selectedCalendarIds.isEmpty()) {
-                    for (int i = 0; i < this.calendars.size(); i++) {
-                        if (selectedCalendarIds.contains(calendars.get(i).id)) {
-                            calendarCheckBoxes.get(i).setChecked(true);
-                        }
-                    }
-                }
+                checkSelectedCalendars(selectedCalendarIds);
                 int leadTime = forwardedBundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5);
                 if (leadTime == 0) leadTimeSpinner.setSelection(0);
                 else if (leadTime == 5) leadTimeSpinner.setSelection(1);
@@ -132,12 +127,25 @@ public class EditConditionActivity extends Activity {
                 ((CheckBox) findViewById(R.id.allDayCheckbox)).setChecked(ignoreAllDayEvents);
             }
         }
+        else {
+            checkSelectedCalendars((ArrayList<String>) this.getLastNonConfigurationInstance());
+        }
         // quick fix for white label on white background.
         ((CheckBox) findViewById(R.id.allDayCheckbox)).setTextColor(Color.BLACK);
         /*
          * if savedInstanceState != null, there is no need to restore any Activity state directly via onSaveInstanceState()), as
          * the Spinner object handles that automatically
          */
+    }
+
+    private void checkSelectedCalendars(ArrayList<String> selectedCalendarIds) {
+        if (selectedCalendarIds != null && !selectedCalendarIds.isEmpty()) {
+            for (int i = 0; i < this.calendars.size(); i++) {
+                if (selectedCalendarIds.contains(calendars.get(i).id)) {
+                    calendarCheckBoxes.get(i).setChecked(true);
+                }
+            }
+        }
     }
 
     public static void preventCustomSerializableAttack(final Intent intent) {
@@ -323,19 +331,30 @@ public class EditConditionActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        Log.d(Constants.LOG_TAG, "onRetainNonConfigurationInstance");
+        return this.getSelectedCalendarIds();
+    }
+
     private ConditionGroup buildConditionGroup() {
+        return ConditionGroupBuilder
+                .all()
+                .withCalendarIds(getSelectedCalendarIds())
+                .containingWords(((TextView) this.findViewById(R.id.inclusions)).getText().toString())
+                .notContainingWords(((TextView) this.findViewById(R.id.exclusions)).getText().toString())
+                .ignoringAllDayEvents(((CheckBox) this.findViewById(R.id.allDayCheckbox)).isChecked())
+                .build();
+    }
+
+    private ArrayList<String> getSelectedCalendarIds() {
         ArrayList<String> selectedCalendarIds = new ArrayList<String>(calendarCheckBoxes.size());
         for (int i = 0; i < calendarCheckBoxes.size(); i++) {
             if (calendarCheckBoxes.get(i).isChecked()) {
                 selectedCalendarIds.add(calendars.get(i).id);
             }
         }
-        return ConditionGroupBuilder
-                .all()
-                .withCalendarIds(selectedCalendarIds)
-                .containingWords(((TextView) this.findViewById(R.id.inclusions)).getText().toString())
-                .notContainingWords(((TextView) this.findViewById(R.id.exclusions)).getText().toString())
-                .ignoringAllDayEvents(((CheckBox) this.findViewById(R.id.allDayCheckbox)).isChecked())
-                .build();
+        return selectedCalendarIds;
     }
+
 }
