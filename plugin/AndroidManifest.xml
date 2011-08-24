@@ -24,10 +24,12 @@
                 android:label="@string/setting_name"
                 android:icon="@drawable/calendar"
                 android:exported="true" >
+<!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+-->
                 <intent-filter>
                     <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
                 </intent-filter>

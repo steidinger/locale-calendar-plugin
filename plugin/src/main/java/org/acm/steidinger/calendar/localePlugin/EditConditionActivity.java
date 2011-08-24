@@ -52,7 +52,6 @@ public class EditConditionActivity extends Activity {
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        Log.d(Constants.LOG_TAG, "onCreate: " + savedInstanceState);
         super.onCreate(savedInstanceState);
         preventCustomSerializableAttack(getIntent());
         setContentView(R.layout.main);
@@ -345,7 +344,6 @@ public class EditConditionActivity extends Activity {
 
     @Override
     public Object onRetainNonConfigurationInstance() {
-        Log.d(Constants.LOG_TAG, "onRetainNonConfigurationInstance");
         return this.getSelectedCalendarIds();
     }
 
