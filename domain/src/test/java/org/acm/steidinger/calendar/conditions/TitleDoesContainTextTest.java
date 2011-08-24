@@ -50,6 +50,15 @@ public class TitleDoesContainTextTest {
     }
 
     @Test
+    public void matchesShouldReturnTrueIfTitleContainsTextInUpperCase() {
+        String text = "test";
+        CalendarEntry entry = entry("TEST more text");
+        Condition condition = new TitleDoesContainText(text);
+
+        assertThat(condition.matches(entry), is(true));
+    }
+
+    @Test
     public void matchesShouldReturnFalseIfTitleDoesNotContainText() {
         String text = "test";
         CalendarEntry entry = entry("some other text");

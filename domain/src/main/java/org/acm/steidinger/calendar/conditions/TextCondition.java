@@ -29,7 +29,7 @@ public abstract class TextCondition extends Condition {
         if (actualText == null) {
             return false;
         }
-        boolean contained = actualText.contains(text);
+        boolean contained = actualText.toLowerCase().contains(text);
         if (checkIfContained) {
             return contained;
         } else {

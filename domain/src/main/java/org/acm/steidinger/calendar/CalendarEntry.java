@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class CalendarEntry {
     public static final int STATUS_FREE = 1;
-    public static final int STATUS_BUSY = 2;
+    public static final int STATUS_BUSY = 0;
 
     public final String calendarID;
     public final Date begin;
