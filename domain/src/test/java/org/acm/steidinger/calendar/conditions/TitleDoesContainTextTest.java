@@ -20,13 +20,13 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class DoesContainTextTest {
+public class TitleDoesContainTextTest {
 
     @Test
     public void matchesShouldReturnTrueForEntryWithExactTitleMatch() {
         String text = "test";
         CalendarEntry entry = entry(text);
-        Condition condition = new DoesContainText(text);
+        Condition condition = new TitleDoesContainText(text);
 
         assertThat(condition.matches(entry), is(true));
     }
@@ -35,7 +35,7 @@ public class DoesContainTextTest {
     public void matchesShouldReturnTrueForEntryWithSubstringTitleMatch() {
         String text = "test";
         CalendarEntry entry = entry(text + " more text");
-        Condition condition = new DoesContainText(text);
+        Condition condition = new TitleDoesContainText(text);
 
         assertThat(condition.matches(entry), is(true));
     }
@@ -44,7 +44,7 @@ public class DoesContainTextTest {
     public void matchesShouldReturnTrueIfTitleContainsTextInDifferentCase() {
         String text = "TEST";
         CalendarEntry entry = entry("test more text");
-        Condition condition = new DoesContainText(text);
+        Condition condition = new TitleDoesContainText(text);
 
         assertThat(condition.matches(entry), is(true));
     }
@@ -53,7 +53,7 @@ public class DoesContainTextTest {
     public void matchesShouldReturnFalseIfTitleDoesNotContainText() {
         String text = "test";
         CalendarEntry entry = entry("some other text");
-        Condition condition = new DoesContainText(text);
+        Condition condition = new TitleDoesContainText(text);
 
         assertThat(condition.matches(entry), is(false));
     }

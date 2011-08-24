@@ -15,22 +15,20 @@
 package org.acm.steidinger.calendar.conditions;
 
 import org.acm.steidinger.calendar.CalendarEntry;
-import org.acm.steidinger.calendar.Condition;
 
-public class DoesContainText extends Condition {
-    public final String text;
+public class LocationDoesNotContainText extends TextCondition {
 
-    public DoesContainText(String text) {
-        this.text = text == null ? null : text.toLowerCase();
+    public LocationDoesNotContainText(String text) {
+        super(text, false);
     }
 
     @Override
     public boolean matches(CalendarEntry entry) {
-        return entry.title != null && entry.title.toLowerCase().contains(text);
+        return entry.location != null && super.matches(entry.location);
     }
 
     @Override
     public String toString() {
-        return "containing '" + text + '\'';
+        return "location notContaining '" + text + '\'';
     }
 }

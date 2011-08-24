@@ -54,8 +54,10 @@ public class QueryConditionReceiver extends BroadcastReceiver {
                 .withCalendarIds(ids)
                 .withLeadTimeInMinutes(bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5))
                 .ignoringAllDayEvents(bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true))
-                .notContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION))
-                .containingWords(bundle.getString(Constants.BUNDLE_EXTRA_INCLUSION))
+                .titleNotContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION))
+                .titleContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_INCLUSION))
+                .locationNotContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_LOCATION_EXCLUSION))
+                .locationContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_LOCATION_INCLUSION))
                 .build();
         debug("Check conditions:" + condition);
         if (ids == null || ids.isEmpty()) {

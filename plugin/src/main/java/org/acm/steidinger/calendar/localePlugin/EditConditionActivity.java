@@ -123,6 +123,14 @@ public class EditConditionActivity extends Activity {
                 if (inclusions != null) {
                     ((EditText) findViewById(R.id.inclusions)).setText(inclusions);
                 }
+                String location_exclusions = forwardedBundle.getString(Constants.BUNDLE_EXTRA_LOCATION_EXCLUSION);
+                if (exclusions != null) {
+                    ((EditText) findViewById(R.id.location_exclusions)).setText(location_exclusions);
+                }
+                String location_inclusions = forwardedBundle.getString(Constants.BUNDLE_EXTRA_LOCATION_INCLUSION);
+                if (location_inclusions != null) {
+                    ((EditText) findViewById(R.id.location_inclusions)).setText(location_inclusions);
+                }
                 boolean ignoreAllDayEvents = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
                 ((CheckBox) findViewById(R.id.allDayCheckbox)).setChecked(ignoreAllDayEvents);
             }
@@ -229,6 +237,10 @@ public class EditConditionActivity extends Activity {
             storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_EXCLUSION, exclusions);
             String inclusions = ((EditText) findViewById(R.id.inclusions)).getText().toString();
             storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_INCLUSION, inclusions);
+            String location_exclusions = ((EditText) findViewById(R.id.location_exclusions)).getText().toString();
+            storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_LOCATION_EXCLUSION, location_exclusions);
+            String location_inclusions = ((EditText) findViewById(R.id.location_inclusions)).getText().toString();
+            storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_LOCATION_INCLUSION, location_inclusions);
             storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, ((CheckBox) findViewById(R.id.allDayCheckbox)).isChecked());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb.toString());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
@@ -341,8 +353,10 @@ public class EditConditionActivity extends Activity {
         return ConditionGroupBuilder
                 .all()
                 .withCalendarIds(getSelectedCalendarIds())
-                .containingWords(((TextView) this.findViewById(R.id.inclusions)).getText().toString())
-                .notContainingWords(((TextView) this.findViewById(R.id.exclusions)).getText().toString())
+                .titleContainingWords(((TextView) this.findViewById(R.id.inclusions)).getText().toString())
+                .titleNotContainingWords(((TextView) this.findViewById(R.id.exclusions)).getText().toString())
+                .locationContainingWords(((TextView) this.findViewById(R.id.location_inclusions)).getText().toString())
+                .locationNotContainingWords(((TextView) this.findViewById(R.id.location_exclusions)).getText().toString())
                 .ignoringAllDayEvents(((CheckBox) this.findViewById(R.id.allDayCheckbox)).isChecked())
                 .build();
     }

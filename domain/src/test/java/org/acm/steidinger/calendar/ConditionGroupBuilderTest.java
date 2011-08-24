@@ -15,15 +15,14 @@
 package org.acm.steidinger.calendar;
 
 import org.acm.steidinger.calendar.conditions.BelongsToCalendar;
-import org.acm.steidinger.calendar.conditions.DoesContainText;
-import org.acm.steidinger.calendar.conditions.DoesNotContainText;
+import org.acm.steidinger.calendar.conditions.TitleDoesContainText;
+import org.acm.steidinger.calendar.conditions.TitleDoesNotContainText;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.junit.Test;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.base.Predicates.instanceOf;
@@ -37,87 +36,87 @@ import static org.junit.matchers.JUnitMatchers.hasItems;
 public class ConditionGroupBuilderTest {
     @Test
     public void builderNotContainingWords_withNull_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().notContainingWords(null).build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleNotContainingWords(null).build();
 
-        assertThat(group, not(hasConditionOfType(DoesNotContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesNotContainText.class)));
     }
 
     @Test
     public void builderNotContainingWords_withEmptyString_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().notContainingWords("").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleNotContainingWords("").build();
 
-        assertThat(group, not(hasConditionOfType(DoesNotContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesNotContainText.class)));
     }
 
     @Test
     public void builderNotContainingWords_withSeparatorOnly_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().notContainingWords(",").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleNotContainingWords(",").build();
 
-        assertThat(group, not(hasConditionOfType(DoesNotContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesNotContainText.class)));
     }
 
     @Test
     public void builderNotContainingWords_withSeparatorAndSpacesOnly_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().notContainingWords(" ,  ").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleNotContainingWords(" ,  ").build();
 
-        assertThat(group, not(hasConditionOfType(DoesNotContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesNotContainText.class)));
     }
 
     @Test
     public void builderNotContainingWords_withSingleWord_shouldAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().notContainingWords("test").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleNotContainingWords("test").build();
 
-        assertThat(group, hasConditionOfType(DoesNotContainText.class));
+        assertThat(group, hasConditionOfType(TitleDoesNotContainText.class));
     }
 
     @Test
     public void builderNotContainingWords_withTwoWords_shouldAddTwoConditions() {
-        ConditionGroup group = ConditionGroupBuilder.all().notContainingWords("test, another").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleNotContainingWords("test, another").build();
 
-        List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(DoesNotContainText.class)));
+        List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(TitleDoesNotContainText.class)));
         assertThat(textConditions, hasItems(withText("test"), withText("another")));
     }
 
     @Test
     public void builderContainingWords_withNull_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().containingWords(null).build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords(null).build();
 
-        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesContainText.class)));
     }
 
     @Test
     public void builderContainingWords_withEmptyString_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().containingWords("").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords("").build();
 
-        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesContainText.class)));
     }
 
     @Test
     public void builderContainingWords_withSeparatorOnly_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().containingWords(",").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords(",").build();
 
-        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesContainText.class)));
     }
 
     @Test
     public void builderContainingWords_withSeparatorAndSpacesOnly_shouldNotAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().containingWords(" ,  ").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords(" ,  ").build();
 
-        assertThat(group, not(hasConditionOfType(DoesContainText.class)));
+        assertThat(group, not(hasConditionOfType(TitleDoesContainText.class)));
     }
 
     @Test
     public void builderContainingWords_withSingleWord_shouldAddCondition() {
-        ConditionGroup group = ConditionGroupBuilder.all().containingWords("test").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords("test").build();
 
-        assertThat(group, hasConditionOfType(DoesContainText.class));
+        assertThat(group, hasConditionOfType(TitleDoesContainText.class));
     }
 
     @Test
     public void builderContainingWords_withTwoWords_shouldAddTwoConditions() {
-        ConditionGroup group = ConditionGroupBuilder.all().containingWords("test, another").build();
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords("test, another").build();
 
-        List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(DoesContainText.class)));
+        List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(TitleDoesContainText.class)));
         assertThat(textConditions, hasItems(withText("test"), withText("another")));
     }
 
@@ -149,12 +148,12 @@ public class ConditionGroupBuilderTest {
         return new TypeSafeMatcher<Condition>() {
             @Override
             public boolean matchesSafely(Condition condition) {
-                return (condition instanceof DoesNotContainText && ((DoesNotContainText) condition).text.equals(expectedText))
-                || (condition instanceof DoesContainText && ((DoesContainText) condition).text.equals(expectedText));
+                return (condition instanceof TitleDoesNotContainText && ((TitleDoesNotContainText) condition).text.equals(expectedText))
+                || (condition instanceof TitleDoesContainText && ((TitleDoesContainText) condition).text.equals(expectedText));
             }
 
             public void describeTo(Description description) {
-                description.appendText("DoesNotContainText condition with text '" + expectedText + "'");
+                description.appendText("TitleDoesNotContainText condition with text '" + expectedText + "'");
             }
         };
     }

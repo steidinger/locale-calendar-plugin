@@ -37,21 +37,40 @@ public class ConditionGroupBuilder {
         return this;
     }
 
-    public ConditionGroupBuilder notContainingWords(String words) {
+    public ConditionGroupBuilder titleNotContainingWords(String words) {
         if (words != null && words.trim().length() > 0) {
             String[] split = words.split("(,|\\s)+");
             for (String word : split) {
-                group.conditions.add(new DoesNotContainText(word));
+                group.conditions.add(new TitleDoesNotContainText(word));
             }
         }
         return this;
     }
 
-    public ConditionGroupBuilder containingWords(String words) {
+    public ConditionGroupBuilder titleContainingWords(String words) {
         if (words != null && words.trim().length() > 0) {
             String[] split = words.split("(,|\\s)+");
             for (String word : split) {
-                group.conditions.add(new DoesContainText(word));
+                group.conditions.add(new TitleDoesContainText(word));
+            }
+        }
+        return this;
+    }
+    public ConditionGroupBuilder locationNotContainingWords(String words) {
+        if (words != null && words.trim().length() > 0) {
+            String[] split = words.split("(,|\\s)+");
+            for (String word : split) {
+                group.conditions.add(new LocationDoesNotContainText(word));
+            }
+        }
+        return this;
+    }
+
+    public ConditionGroupBuilder locationContainingWords(String words) {
+        if (words != null && words.trim().length() > 0) {
+            String[] split = words.split("(,|\\s)+");
+            for (String word : split) {
+                group.conditions.add(new LocationDoesContainText(word));
             }
         }
         return this;

@@ -15,6 +15,8 @@
     <string name="lead_time_10min_short">10min</string>
     <string name="exclusion_prompt">Title must not contain:</string>
     <string name="inclusion_prompt">Title contains:</string>
+    <string name="location_exclusion_prompt">Location must not contain:</string>
+    <string name="location_inclusion_prompt">Location contains:</string>
     <string name="ignore_all_day_entries">Ignore all day events</string>
     <string name="preview_title">Preview Matching Entries</string>
     <string name="menu_save">Save</string>
