@@ -14,9 +14,7 @@
 
 package org.acm.steidinger.calendar;
 
-import org.acm.steidinger.calendar.conditions.BelongsToCalendar;
-import org.acm.steidinger.calendar.conditions.TitleDoesContainText;
-import org.acm.steidinger.calendar.conditions.TitleDoesNotContainText;
+import org.acm.steidinger.calendar.conditions.*;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.junit.Test;
@@ -27,6 +25,7 @@ import java.util.List;
 
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
@@ -113,11 +112,44 @@ public class ConditionGroupBuilderTest {
     }
 
     @Test
-    public void builderContainingWords_withTwoWords_shouldAddTwoConditions() {
+    public void builderContainingWords_withTwoWords_shouldAddDisjunctiveTwoConditions() {
+        ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords("test, another").build();
+
+        List<Condition> textConditions = newArrayList(filter(((DisjunctiveConditionGroup) find(group.conditions,
+                instanceOf(DisjunctiveConditionGroup.class))).conditions, instanceOf(TitleDoesContainText.class)));
+        assertThat(textConditions, hasItems(withText("test"), withText("another")));
+    }
+
+    @Test
+    public void builderContainingWords_withTwoWords_shouldNotAddConjunctiveTwoConditions() {
         ConditionGroup group = ConditionGroupBuilder.all().titleContainingWords("test, another").build();
 
         List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(TitleDoesContainText.class)));
-        assertThat(textConditions, hasItems(withText("test"), withText("another")));
+        assertThat(textConditions, not(hasItems(withText("test"), withText("another"))));
+    }
+
+    @Test
+    public void builderForLocationContainingWords_withSingleWord_shouldAddCondition() {
+        ConditionGroup group = ConditionGroupBuilder.all().locationContainingWords("test").build();
+
+        assertThat(group, hasConditionOfType(LocationDoesContainText.class));
+    }
+
+    @Test
+    public void builderForLocationContainingWords_withTwoWords_shouldAddDisjunctiveTwoConditions() {
+        ConditionGroup group = ConditionGroupBuilder.all().locationContainingWords("test, another").build();
+
+        List<Condition> textConditions = newArrayList(filter(((DisjunctiveConditionGroup) find(group.conditions,
+                instanceOf(DisjunctiveConditionGroup.class))).conditions, instanceOf(LocationDoesContainText.class)));
+        assertThat(textConditions, hasItems(withLocationText("test"), withLocationText("another")));
+    }
+
+    @Test
+    public void builderForLocationContainingWords_withTwoWords_shouldNotAddConjunctiveTwoConditions() {
+        ConditionGroup group = ConditionGroupBuilder.all().locationContainingWords("test, another").build();
+
+        List<Condition> textConditions = newArrayList(filter(group.conditions, instanceOf(LocationDoesContainText.class)));
+        assertThat(textConditions, not(hasItems(withLocationText("test"), withLocationText("another"))));
     }
 
     @Test
@@ -153,7 +185,20 @@ public class ConditionGroupBuilderTest {
             }
 
             public void describeTo(Description description) {
-                description.appendText("TitleDoesNotContainText condition with text '" + expectedText + "'");
+                description.appendText("TitleDoes[Not]ContainText condition with text '" + expectedText + "'");
+            }
+        };
+    }
+    public static TypeSafeMatcher<Condition> withLocationText(final String expectedText) {
+        return new TypeSafeMatcher<Condition>() {
+            @Override
+            public boolean matchesSafely(Condition condition) {
+                return (condition instanceof LocationDoesNotContainText && ((LocationDoesNotContainText) condition).text.equals(expectedText))
+                || (condition instanceof LocationDoesContainText && ((LocationDoesContainText) condition).text.equals(expectedText));
+            }
+
+            public void describeTo(Description description) {
+                description.appendText("LocationDoes[Not]ContainText condition with text '" + expectedText + "'");
             }
         };
     }

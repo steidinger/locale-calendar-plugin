@@ -16,7 +16,7 @@ package org.acm.steidinger.calendar.conditions;
 
 import org.acm.steidinger.calendar.Condition;
 
-public abstract class TextCondition extends Condition {
+public abstract class TextCondition implements Condition {
     public final String text;
     private final boolean checkIfContained;
 

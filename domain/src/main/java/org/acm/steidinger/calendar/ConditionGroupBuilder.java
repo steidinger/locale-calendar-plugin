@@ -50,8 +50,14 @@ public class ConditionGroupBuilder {
     public ConditionGroupBuilder titleContainingWords(String words) {
         if (words != null && words.trim().length() > 0) {
             String[] split = words.split("(,|\\s)+");
-            for (String word : split) {
-                group.conditions.add(new TitleDoesContainText(word));
+            if (split.length == 1) {
+                group.conditions.add(new TitleDoesContainText(split[0]));
+            } else if (split.length > 1) {
+                DisjunctiveConditionGroup disjunction = new DisjunctiveConditionGroup();
+                for (String word : split) {
+                    disjunction.conditions.add(new TitleDoesContainText(word));
+                }
+                group.conditions.add(disjunction);
             }
         }
         return this;
@@ -69,8 +75,14 @@ public class ConditionGroupBuilder {
     public ConditionGroupBuilder locationContainingWords(String words) {
         if (words != null && words.trim().length() > 0) {
             String[] split = words.split("(,|\\s)+");
-            for (String word : split) {
-                group.conditions.add(new LocationDoesContainText(word));
+            if (split.length == 1) {
+                group.conditions.add(new LocationDoesContainText(split[0]));
+            } else if (split.length > 1) {
+                DisjunctiveConditionGroup disjunction = new DisjunctiveConditionGroup();
+                for (String word : split) {
+                    disjunction.conditions.add(new LocationDoesContainText(word));
+                }
+                group.conditions.add(disjunction);
             }
         }
         return this;

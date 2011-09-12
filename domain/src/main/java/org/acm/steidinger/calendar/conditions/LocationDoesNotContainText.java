@@ -22,7 +22,6 @@ public class LocationDoesNotContainText extends TextCondition {
         super(text, false);
     }
 
-    @Override
     public boolean matches(CalendarEntry entry) {
         return entry.location != null && super.matches(entry.location);
     }

@@ -2,12 +2,11 @@ package org.acm.steidinger.calendar;
 
 import org.acm.steidinger.calendar.conditions.BelongsToCalendar;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ConditionGroup implements Serializable {
+public class ConditionGroup implements Condition {
     protected final List<Condition> conditions = new ArrayList<Condition>();
 
     public boolean anyMatch(Collection<CalendarEntry> allEntries) {

@@ -8,7 +8,6 @@ public class TitleDoesNotContainText extends TextCondition {
         super(text, false);
     }
 
-    @Override
     public boolean matches(CalendarEntry entry) {
         return entry.title != null && super.matches(entry.title);
     }

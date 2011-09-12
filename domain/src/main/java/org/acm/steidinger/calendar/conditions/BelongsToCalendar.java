@@ -4,11 +4,9 @@ import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.Condition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 
-public class BelongsToCalendar extends Condition {
+public class BelongsToCalendar implements Condition {
     public static final ArrayList<String> NO_CALENDAR = new ArrayList<String>();
 
     public final ArrayList<String> ids;
@@ -39,7 +37,6 @@ public class BelongsToCalendar extends Condition {
         }
     }
 
-    @Override
     public boolean matches(final CalendarEntry entry) {
         for (String id: ids) {
             if (entry.calendarID.equals(id)) {

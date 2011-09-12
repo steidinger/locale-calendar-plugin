@@ -12,22 +12,24 @@
  * // limitations under the License.
  */
 
-package org.acm.steidinger.calendar.conditions;
+package org.acm.steidinger.calendar;
 
-import org.acm.steidinger.calendar.CalendarEntry;
-
-public class TitleDoesContainText extends TextCondition {
-
-    public TitleDoesContainText(String text) {
-        super(text, true);
-    }
-
+/**
+ * A group of conditions that matches if at least one of its child conditions matches an entry.
+ */
+public class DisjunctiveConditionGroup extends ConditionGroup {
+    @Override
     public boolean matches(CalendarEntry entry) {
-        return entry.title != null && super.matches(entry.title);
+        for (Condition condition : this.conditions) {
+            if (condition.matches(entry)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        return "title containing '" + text + '\'';
+        return "Either: " + super.toString();
     }
 }
