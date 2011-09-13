@@ -90,6 +90,17 @@ public class EditConditionActivity extends Activity {
         });
         leadTimeSpinner.setAdapter(leadTimeAdapter);
         leadTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner availabilitySpinner = (Spinner) findViewById(R.id.availabilitySpinner);
+        ArrayAdapter<String> availabilityAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, new String[] {
+                getString(R.string.status_busy),
+                getString(R.string.status_free),
+                getString(R.string.status_any)
+        });
+        availabilityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        availabilitySpinner.setAdapter(availabilityAdapter);
+
         /*
          * if savedInstanceState == null, then then this is a new Activity instance and a check for EXTRA_BUNDLE is needed
          */
@@ -110,6 +121,7 @@ public class EditConditionActivity extends Activity {
                     selectedCalendarIds.add(forwardedBundle.getString(Constants.BUNDLE_EXTRA_CALENDAR_ID));
                 }
                 checkSelectedCalendars(selectedCalendarIds);
+                availabilitySpinner.setSelection(forwardedBundle.getInt(Constants.BUNDLE_EXTRA_STATUS, 2));
                 int leadTime = forwardedBundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5);
                 if (leadTime == 0) leadTimeSpinner.setSelection(0);
                 else if (leadTime == 5) leadTimeSpinner.setSelection(1);
@@ -241,6 +253,7 @@ public class EditConditionActivity extends Activity {
             String location_inclusions = ((EditText) findViewById(R.id.location_inclusions)).getText().toString();
             storeAndForwardExtras.putString(Constants.BUNDLE_EXTRA_LOCATION_INCLUSION, location_inclusions);
             storeAndForwardExtras.putBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, ((CheckBox) findViewById(R.id.allDayCheckbox)).isChecked());
+            storeAndForwardExtras.putInt(Constants.BUNDLE_EXTRA_STATUS, ((Spinner) findViewById(R.id.availabilitySpinner)).getSelectedItemPosition());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, blurb.toString());
             returnIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, storeAndForwardExtras);
             setResult(RESULT_OK, returnIntent);
@@ -356,6 +369,7 @@ public class EditConditionActivity extends Activity {
                 .locationContainingWords(((TextView) this.findViewById(R.id.location_inclusions)).getText().toString())
                 .locationNotContainingWords(((TextView) this.findViewById(R.id.location_exclusions)).getText().toString())
                 .ignoringAllDayEvents(((CheckBox) this.findViewById(R.id.allDayCheckbox)).isChecked())
+                .withAvailability(((Spinner) this.findViewById(R.id.availabilitySpinner)).getSelectedItemPosition())
                 .build();
     }
 

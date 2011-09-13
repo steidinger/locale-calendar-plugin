@@ -5,6 +5,7 @@
     <string name="calendar_prompt">Kalender wählen</string>
     <string name="calendar_state_prompt">Kalenderstatus wählen</string>
     <string name="setting_name">Kalender</string>
+    <string name="status_any">egal</string>
     <string name="status_busy">beschäftigt</string>
     <string name="status_free">verfügbar</string>
     <string name="lead_time">Vorlaufzeit:</string>
@@ -17,6 +18,7 @@
     <string name="inclusion_prompt">In Titel enthalten:</string>
     <string name="location_exclusion_prompt">Nicht in Ort enthalten:</string>
     <string name="location_inclusion_prompt">In Ort enthalten:</string>
+    <string name="availability_status">Verfügbarkeit</string>
     <string name="ignore_all_day_entries">Ganztägige Einträge ignorieren</string>
     <string name="menu_save">Speichern</string>
     <string name="menu_cancel">Verwerfen</string>

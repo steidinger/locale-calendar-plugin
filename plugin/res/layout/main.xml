@@ -67,6 +67,20 @@
                      android:prompt="@string/lead_time"
                      android:id="@+id/leadTimeSpinner"/>
         </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:orientation="horizontal"
+                      android:layout_margin="5dp">
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:layout_marginRight="10dp"
+                      android:textSize="10pt"
+                      android:text="@string/availability_status"/>
+            <Spinner android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:prompt="@string/availability_status"
+                     android:id="@+id/availabilitySpinner"/>
+        </LinearLayout>
         <CheckBox android:text="@string/ignore_all_day_entries"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"

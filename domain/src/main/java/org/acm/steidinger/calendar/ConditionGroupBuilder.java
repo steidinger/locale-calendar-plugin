@@ -88,6 +88,13 @@ public class ConditionGroupBuilder {
         return this;
     }
 
+    public ConditionGroupBuilder withAvailability(int status) {
+        if (status == CalendarEntry.STATUS_BUSY || status == CalendarEntry.STATUS_FREE) {
+            group.conditions.add(new AvailabilityCondition(status));
+        }
+        return this;
+    }
+
     public ConditionGroup build() {
         return group;
     }

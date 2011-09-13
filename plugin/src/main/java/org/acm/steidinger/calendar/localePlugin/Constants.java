@@ -22,6 +22,7 @@ public interface Constants
     String BUNDLE_EXTRA_LEAD_TIME = "org.acm.steidinger.calendar.localePlugin.extra.LEAD_TIME";
     String BUNDLE_EXTRA_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.EXCLUSION";
     String BUNDLE_EXTRA_INCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.INCLUSION";
+    String BUNDLE_EXTRA_STATUS = "org.acm.steidinger.calendar.localePlugin.extra.AVAILABILITY";
     String BUNDLE_EXTRA_LOCATION_EXCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.LOCATION_EXCLUSION";
     String BUNDLE_EXTRA_LOCATION_INCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.LOCATION_INCLUSION";
     String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";

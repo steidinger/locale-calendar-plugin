@@ -5,6 +5,7 @@
     <string name="calendar_prompt">Choose Calendar</string>
     <string name="calendar_state_prompt">Choose Calendar Status</string>
     <string name="setting_name">Calendar</string>
+    <string name="status_any">free or busy</string>
     <string name="status_busy">busy</string>
     <string name="status_free">free</string>
     <string name="lead_time">Lead Time</string>
@@ -17,6 +18,7 @@
     <string name="inclusion_prompt">Title contains:</string>
     <string name="location_exclusion_prompt">Location must not contain:</string>
     <string name="location_inclusion_prompt">Location contains:</string>
+    <string name="availability_status">Availability</string>
     <string name="ignore_all_day_entries">Ignore all day events</string>
     <string name="preview_title">Preview Matching Entries</string>
     <string name="menu_save">Save</string>

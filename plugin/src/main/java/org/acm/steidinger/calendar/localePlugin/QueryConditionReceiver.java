@@ -53,6 +53,7 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         ConditionGroup condition = ConditionGroupBuilder.all()
                 .withCalendarIds(ids)
                 .withLeadTimeInMinutes(bundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5))
+                .withAvailability(bundle.getInt(Constants.BUNDLE_EXTRA_STATUS, 2))
                 .ignoringAllDayEvents(bundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true))
                 .titleNotContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION))
                 .titleContainingWords(bundle.getString(Constants.BUNDLE_EXTRA_INCLUSION))
