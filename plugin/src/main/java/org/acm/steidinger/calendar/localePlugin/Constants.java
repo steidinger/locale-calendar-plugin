@@ -27,6 +27,6 @@ public interface Constants
     String BUNDLE_EXTRA_LOCATION_INCLUSION = "org.acm.steidinger.calendar.localePlugin.extra.LOCATION_INCLUSION";
     String BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS = "org.acm.steidinger.calendar.localePlugin.extra.ALL_DAY_EVENTS";
 
-    boolean IS_LOGGABLE = false;
+    boolean IS_LOGGABLE = true;
     boolean IS_DEBUG = false;
 }
