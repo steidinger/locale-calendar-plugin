@@ -22,10 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import com.twofortyfouram.locale.BreadCrumber;
 import com.twofortyfouram.locale.SharedResources;
@@ -33,6 +30,7 @@ import org.acm.steidinger.calendar.CalendarInfo;
 import org.acm.steidinger.calendar.CalendarProvider;
 import org.acm.steidinger.calendar.ConditionGroup;
 import org.acm.steidinger.calendar.ConditionGroupBuilder;
+import org.acm.steidinger.calendar.localePlugin2.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +62,7 @@ public class EditConditionActivity extends Activity {
          * allow the use of default values, while also permitting the host APK to also customize the look-and-feel of the UI frame
          */
         final Drawable borderDrawable = SharedResources.getDrawableResource(getPackageManager(), getCallingPackage(), SharedResources.DRAWABLE_LOCALE_BORDER);
+        Log.d(Constants.LOG_TAG, "EditConditionActivity: borderDrawable=" + borderDrawable);
         if (borderDrawable == null) {
             // this is ugly, but it maintains compatibility
             findViewById(R.id.frame).setBackgroundColor(Color.WHITE);
@@ -87,17 +86,35 @@ public class EditConditionActivity extends Activity {
                 getString(R.string.lead_time_0min),
                 getString(R.string.lead_time_5min),
                 getString(R.string.lead_time_10min)
-        });
+        }) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                if (view instanceof TextView) {
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         leadTimeSpinner.setAdapter(leadTimeAdapter);
         leadTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Spinner availabilitySpinner = (Spinner) findViewById(R.id.availabilitySpinner);
         ArrayAdapter<String> availabilityAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, new String[] {
+                android.R.layout.simple_spinner_item, new String[]{
                 getString(R.string.status_busy),
                 getString(R.string.status_free),
                 getString(R.string.status_any)
-        });
+        }) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                if (view instanceof TextView) {
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         availabilityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         availabilitySpinner.setAdapter(availabilityAdapter);
 
@@ -111,7 +128,7 @@ public class EditConditionActivity extends Activity {
              * the forwardedBundle would be null if this was a new condition
              */
             if (forwardedBundle != null) {
-                ArrayList<String> selectedCalendarIds= null;
+                ArrayList<String> selectedCalendarIds = null;
                 if (forwardedBundle.containsKey(Constants.BUNDLE_EXTRA_CALENDAR_IDS)) {
                     selectedCalendarIds = forwardedBundle.getStringArrayList(Constants.BUNDLE_EXTRA_CALENDAR_IDS);
                 }
@@ -145,8 +162,7 @@ public class EditConditionActivity extends Activity {
                 boolean ignoreAllDayEvents = forwardedBundle.getBoolean(Constants.BUNDLE_EXTRA_IGNORE_ALL_DAY_EVENTS, true);
                 ((CheckBox) findViewById(R.id.allDayCheckbox)).setChecked(ignoreAllDayEvents);
             }
-        }
-        else {
+        } else {
             checkSelectedCalendars((ArrayList<String>) this.getLastNonConfigurationInstance());
         }
         // quick fix for white label on white background.

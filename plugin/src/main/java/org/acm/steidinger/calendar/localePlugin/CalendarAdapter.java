@@ -23,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import org.acm.steidinger.calendar.CalendarEntry;
 import org.acm.steidinger.calendar.ConditionGroup;
+import org.acm.steidinger.calendar.localePlugin2.R;
 
 import java.text.DateFormat;
 import java.util.List;
