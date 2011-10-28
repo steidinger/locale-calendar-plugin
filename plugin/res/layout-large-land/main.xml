@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:id="@+id/frame"
+        >
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:textSize="10pt"
+                  android:text="@string/calendar_prompt"/>
+
+        <LinearLayout android:id="@+id/calendarGroup"
+                      android:orientation="vertical"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content">
+
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal">
+            <LinearLayout android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:layout_weight="1"
+                          android:orientation="vertical">
+                <TextView android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textSize="10pt"
+                          android:text="@string/inclusion_prompt"
+                          android:id="@+id/title_contains_prompt"
+                        />
+                <EditText android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textColor="#000"
+                          android:background="@android:drawable/edit_text"
+                          android:id="@+id/inclusions"
+                        />
+                <TextView android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textSize="10pt"
+                          android:text="@string/location_inclusion_prompt"/>
+                <EditText android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textColor="#000"
+                          android:background="@android:drawable/edit_text"
+                          android:id="@+id/location_inclusions"/>
+            </LinearLayout>
+            <LinearLayout android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:layout_weight="1"
+                          android:layout_marginLeft="5dip"
+                          android:orientation="vertical">
+                <TextView android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:layout_weight="1"
+                          android:textSize="10pt"
+                          android:text="@string/exclusion_prompt"
+                          android:id="@+id/title_not_contains_prompt"
+                          android:layout_toRightOf="@+id/title_contains_prompt"
+                        />
+                <EditText android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textColor="#000"
+                          android:id="@+id/exclusions"
+                          android:background="@android:drawable/edit_text"
+                          android:layout_below="@+id/title_not_contains_prompt"
+                        />
+                <TextView android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textSize="10pt"
+                          android:text="@string/location_exclusion_prompt"/>
+                <EditText android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"
+                          android:textColor="#000"
+                          android:background="@android:drawable/edit_text"
+                          android:id="@+id/location_exclusions"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:orientation="horizontal"
+                      android:layout_margin="5dp">
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:layout_marginRight="10dp"
+                      android:textSize="10pt"
+                      android:text="@string/lead_time"/>
+            <Spinner android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:prompt="@string/lead_time"
+                     android:id="@+id/leadTimeSpinner"/>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:orientation="horizontal"
+                      android:layout_margin="5dp">
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:layout_marginRight="10dp"
+                      android:textSize="10pt"
+                      android:text="@string/availability_status"/>
+            <Spinner android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:prompt="@string/availability_status"
+                     android:id="@+id/availabilitySpinner"/>
+        </LinearLayout>
+        <CheckBox android:text="@string/ignore_all_day_entries"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/allDayCheckbox"/>
+    </LinearLayout>
+</ScrollView>

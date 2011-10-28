@@ -32,6 +32,7 @@
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
                   android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/inclusions"/>
         <TextView android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
@@ -40,6 +41,7 @@
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
                   android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/exclusions"/>
         <TextView android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
@@ -48,6 +50,7 @@
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
                   android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/location_inclusions"/>
         <TextView android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
@@ -56,6 +59,7 @@
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
                   android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/location_exclusions"/>
         <LinearLayout android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
