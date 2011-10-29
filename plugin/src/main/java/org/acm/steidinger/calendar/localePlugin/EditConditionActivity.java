@@ -81,23 +81,7 @@ public class EditConditionActivity extends Activity {
             calendarGroup.addView(box);
             calendarCheckBoxes.add(box);
         }
-        Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
-        ArrayAdapter<String> leadTimeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{
-                getString(R.string.lead_time_0min),
-                getString(R.string.lead_time_5min),
-                getString(R.string.lead_time_10min)
-        }) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                if (view instanceof TextView) {
-                    ((TextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-        leadTimeSpinner.setAdapter(leadTimeAdapter);
-        leadTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        EditText leadTimeText = (EditText) findViewById(R.id.leadTime);
 
         Spinner availabilitySpinner = (Spinner) findViewById(R.id.availabilitySpinner);
         ArrayAdapter<String> availabilityAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -139,10 +123,8 @@ public class EditConditionActivity extends Activity {
                 }
                 checkSelectedCalendars(selectedCalendarIds);
                 availabilitySpinner.setSelection(forwardedBundle.getInt(Constants.BUNDLE_EXTRA_STATUS, 2));
-                int leadTime = forwardedBundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5);
-                if (leadTime == 0) leadTimeSpinner.setSelection(0);
-                else if (leadTime == 5) leadTimeSpinner.setSelection(1);
-                else leadTimeSpinner.setSelection(2);
+                leadTimeText.setText(String.valueOf(forwardedBundle.getInt(Constants.BUNDLE_EXTRA_LEAD_TIME, 5)));
+
                 String exclusions = forwardedBundle.getString(Constants.BUNDLE_EXTRA_EXCLUSION);
                 if (exclusions != null) {
                     ((EditText) findViewById(R.id.exclusions)).setText(exclusions);
@@ -226,7 +208,6 @@ public class EditConditionActivity extends Activity {
         if (isCancelled) {
             setResult(RESULT_CANCELED);
         } else {
-            final Spinner leadTimeSpinner = (Spinner) findViewById(R.id.leadTimeSpinner);
             final Intent returnIntent = new Intent();
 
             final Bundle storeAndForwardExtras = new Bundle();
@@ -242,22 +223,16 @@ public class EditConditionActivity extends Activity {
             storeAndForwardExtras.putStringArrayList(Constants.BUNDLE_EXTRA_CALENDAR_IDS, selectedCalendarIds);
             blurb.append(TextUtils.join(",", names));
 
-            int leadTime = 5;
-            switch (leadTimeSpinner.getSelectedItemPosition()) {
-                case 0:
-                    leadTime = 0;
-                    break;
-                case 1:
-                    leadTime = 5;
-                    blurb.append(" -").append(getString(R.string.lead_time_5min_short));
-                    break;
-                case 2:
-                    leadTime = 10;
-                    blurb.append(" -").append(getString(R.string.lead_time_10min_short));
-                    break;
-                default:
-                    Log.w(Constants.LOG_TAG, "Fell through switch statement"); //$NON-NLS-1$
-                    break;
+            int leadTime;
+            try {
+                leadTime = Integer.parseInt(((EditText) findViewById(R.id.leadTime)).getText().toString());
+                Log.d(Constants.LOG_TAG, "Stored lead time " + leadTime);
+            } catch (NumberFormatException e) {
+                Log.e(Constants.LOG_TAG, "Invalid lead time " + ((EditText) findViewById(R.id.leadTime)).getText().toString());
+                leadTime = 0;
+            }
+            if (leadTime > 0) {
+                blurb.append(" - ").append(leadTime).append("min");
             }
             storeAndForwardExtras.putInt(Constants.BUNDLE_EXTRA_LEAD_TIME, leadTime);
             String exclusions = ((EditText) findViewById(R.id.exclusions)).getText().toString();
