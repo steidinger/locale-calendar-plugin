@@ -30,7 +30,6 @@ import org.acm.steidinger.calendar.CalendarInfo;
 import org.acm.steidinger.calendar.CalendarProvider;
 import org.acm.steidinger.calendar.ConditionGroup;
 import org.acm.steidinger.calendar.ConditionGroupBuilder;
-import org.acm.steidinger.calendar.localePlugin2.R;
 
 import java.util.ArrayList;
 import java.util.List;

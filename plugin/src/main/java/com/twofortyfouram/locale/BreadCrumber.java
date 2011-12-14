@@ -15,7 +15,7 @@ package com.twofortyfouram.locale;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import org.acm.steidinger.calendar.localePlugin2.R;
+import org.acm.steidinger.calendar.localePlugin.R;
 
 
 /**

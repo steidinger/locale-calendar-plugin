@@ -30,7 +30,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.acm.steidinger.calendar.localePlugin2.R;
+import org.acm.steidinger.calendar.localePlugin.R;
 
 
 /**
