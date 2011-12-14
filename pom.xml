@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.acm.steidinger</groupId>
-    <artifactId>android-calendar-plugin-parent</artifactId>
-    <version>0.7.1</version>
+    <artifactId>android-calendar-plugin2-parent</artifactId>
+    <version>0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>android-calendar-parent</name>
     <modules>
@@ -49,7 +49,7 @@
                         <resourceDirectory>${project.basedir}/res</resourceDirectory>
                         <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
                         <sdk>
-                            <platform>3</platform>
+                            <platform>8</platform>
                         </sdk>
                         <deleteConflictingFiles>true</deleteConflictingFiles>
                         <undeployBeforeDeploy>true</undeployBeforeDeploy>
