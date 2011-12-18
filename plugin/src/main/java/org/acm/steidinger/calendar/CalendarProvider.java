@@ -12,15 +12,12 @@
 
 package org.acm.steidinger.calendar;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.text.TextUtils;
+import android.provider.CalendarContract;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.Log;
 import org.acm.steidinger.calendar.localePlugin.Constants;
 
 import java.util.ArrayList;
@@ -29,24 +26,16 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarProvider {
-    private static Uri providerUri(String path) {
-        String base;
-        if (Integer.parseInt(Build.VERSION.SDK) < 8) {
-            base = "content://calendar";
-        }
-        else {
-            base = "content://com.android.calendar";
-        }
-        return Uri.parse(base + path);
-    }
 
     public static List<CalendarInfo> getCalendars(Context context) {
         if (Constants.IS_DEBUG) {
             return getDummyCalendars();
         }
         List<CalendarInfo> calendars = new ArrayList<CalendarInfo>();
-        final Cursor cursor = context.getContentResolver().query(providerUri("/calendars"),
-                (new String[]{"_id", "displayName", "selected"}), null, null, null);
+        final Cursor cursor = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,
+                (new String[]{CalendarContract.Calendars._ID,
+                        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                        CalendarContract.Calendars.VISIBLE}), null, null, null);
         if (cursor != null) {
             try {
                 while (cursor.moveToNext()) {
@@ -67,46 +56,52 @@ public class CalendarProvider {
     }
 
     public static List<CalendarEntry> getNextCalendarEntries(Context context, ArrayList<String> calendarIds, int days) {
-        if (Constants.IS_DEBUG) {
-            return getDummyEntries();
-        }
-        ContentResolver contentResolver = context.getContentResolver();
+        debug("Querying calendar entries for calendars: " + calendarIds.toString());
         List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
-
-        Uri.Builder builder = providerUri("/instances/when").buildUpon();
-        long now = new Date().getTime();
-        ContentUris.appendId(builder, now);
-        ContentUris.appendId(builder, now + (days * DateUtils.DAY_IN_MILLIS));
         String selection;
+/*
         if (calendarIds.isEmpty()) {
-            selection = "calendar_id is null"; // will always be false
+            selection = CalendarContract.Instances.CALENDAR_ID + " is null"; // will always be false
         }
         else if (calendarIds.size() == 1) {
-            selection = "calendar_id = " + calendarIds.get(0);
+            selection = CalendarContract.Instances.CALENDAR_ID + " = " + calendarIds.get(0);
         }
         else {
-            selection = "calendar_id in (" + TextUtils.join(",", calendarIds) + ")";
+            selection = CalendarContract.Instances.CALENDAR_ID + " in (" + TextUtils.join(",", calendarIds) + ")";
         }
-        Cursor eventCursor = contentResolver.query(builder.build(),
-                new String[]{"title", "begin", "end", "allDay", "calendar_id", "eventLocation", "description", "transparency"},
-                selection,
-                null, "startDay ASC, startMinute ASC");
-        // For a full list of available columns see http://tinyurl.com/yfbg76w
-
+*/
+        long now = new Date().getTime();
+        Cursor eventCursor = CalendarContract.Instances.query(context.getContentResolver(),
+                new String[]{CalendarContract.Instances.TITLE,
+                        CalendarContract.Instances.DTSTART,
+                        CalendarContract.Instances.DTEND,
+                        CalendarContract.Instances.ALL_DAY,
+                        CalendarContract.Instances.CALENDAR_ID,
+                        CalendarContract.Instances.EVENT_LOCATION,
+                        CalendarContract.Instances.DESCRIPTION,
+                        CalendarContract.Instances.AVAILABILITY},
+                now,
+                now + (days * DateUtils.DAY_IN_MILLIS));
+//                selection);
         if (eventCursor != null) {
             try {
                 while (eventCursor.moveToNext()) {
 
-                    CalendarEntry entry = new CalendarEntry(eventCursor.getString(eventCursor.getColumnIndex("calendar_id")),
-                            eventCursor.getLong(eventCursor.getColumnIndex("begin")),
-                            eventCursor.getLong(eventCursor.getColumnIndex("end")),
-                            eventCursor.getString(eventCursor.getColumnIndex("title")),
-                            eventCursor.getString(eventCursor.getColumnIndex("description")),
-                            eventCursor.getString(eventCursor.getColumnIndex("eventLocation")),
-                            eventCursor.getInt(eventCursor.getColumnIndex("allDay")),
-                            eventCursor.getInt(eventCursor.getColumnIndex("transparency")));
+                    CalendarEntry entry = new CalendarEntry(eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.CALENDAR_ID)),
+                            eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.DTSTART)),
+                            eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.DTEND)),
+                            eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.TITLE)),
+                            eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.DESCRIPTION)),
+                            eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.EVENT_LOCATION)),
+                            eventCursor.getInt(eventCursor.getColumnIndex(CalendarContract.Instances.ALL_DAY)),
+                            eventCursor.getInt(eventCursor.getColumnIndex(CalendarContract.Instances.AVAILABILITY)));
+                    Log.d(Constants.LOG_TAG, "got calendar entry " + entry);
                     if (calendarIds.contains(entry.calendarID)) {
+                        debug("Entry belongs to selected calendars");
                         entries.add(entry);
+                    }
+                    else {
+                        debug("Entry ignored, does not belong to selected calendars");
                     }
                 }
             } finally {
@@ -136,4 +131,11 @@ public class CalendarProvider {
         time.set(0, 0, 0, time.monthDay, time.month, time.year);
         return time.toMillis(false);
     }
+
+    private static void debug(final String msg) {
+        if (Constants.IS_LOGGABLE) {
+            Log.d(Constants.LOG_TAG, msg);
+        }
+    }
+
 }

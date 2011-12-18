@@ -5,7 +5,7 @@
 
     <groupId>org.acm.steidinger</groupId>
     <artifactId>android-calendar-plugin2-parent</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>android-calendar-parent</name>
     <modules>
@@ -15,17 +15,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.google.android</groupId>
+                <groupId>android</groupId>
                 <artifactId>android</artifactId>
-                <version>2.3.3</version>
+                <version>4.0_r3</version>
                 <scope>provided</scope>
             </dependency>
+<!--
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android-test</artifactId>
-                <version>2.3.3</version>
+                <version>4.0_r3</version>
                 <scope>provided</scope>
             </dependency>
+-->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -40,8 +42,8 @@
             <plugins>
                 <plugin>
                     <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                    <artifactId>maven-android-plugin</artifactId>
-                    <version>2.8.3</version>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>3.0.0</version>
                     <inherited>true</inherited>
                     <configuration>
                         <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>

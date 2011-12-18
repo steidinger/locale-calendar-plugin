@@ -14,6 +14,7 @@ package org.acm.steidinger.calendar;
 import java.util.Date;
 
 public class CalendarEntry {
+    public static final int STATUS_TENTATIVE = 2;
     public static final int STATUS_FREE = 1;
     public static final int STATUS_BUSY = 0;
 

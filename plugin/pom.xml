@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.acm.steidinger</groupId>
         <artifactId>android-calendar-plugin2-parent</artifactId>
-        <version>0.8.1</version>
+        <version>0.8.2-SNAPSHOT</version>
     </parent>
     <artifactId>android-calendar-plugin</artifactId>
     <packaging>apk</packaging>
@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.android</groupId>
+            <groupId>android</groupId>
             <artifactId>android</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -29,7 +29,8 @@
         <plugins>
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>maven-android-plugin</artifactId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <extensions>true</extensions>
             </plugin>
         </plugins>
