@@ -5,7 +5,7 @@
 
     <groupId>org.acm.steidinger</groupId>
     <artifactId>android-calendar-plugin2-parent</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.1a</version>
     <packaging>pom</packaging>
     <name>android-calendar-parent</name>
     <modules>
@@ -20,12 +20,14 @@
                 <version>2.3.3</version>
                 <scope>provided</scope>
             </dependency>
+<!--
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android-test</artifactId>
                 <version>2.3.3</version>
                 <scope>provided</scope>
             </dependency>
+-->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
