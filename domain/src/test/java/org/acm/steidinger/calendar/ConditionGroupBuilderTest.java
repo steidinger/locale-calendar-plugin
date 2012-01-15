@@ -27,8 +27,7 @@ import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Lists.newArrayList;
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
@@ -175,6 +174,40 @@ public class ConditionGroupBuilderTest {
         assertThat(group, hasConditionOfType(BelongsToCalendar.class));
     }
 
+    @Test
+    public void parseEmptyTextShouldReturnEmptyArray() {
+        assertThat(ConditionGroupBuilder.parseText(""), equalTo(new String[]{""}));
+    }
+
+    @Test
+    public void parseSingleWordShouldReturnArrayContainingThatWord() {
+        assertThat(ConditionGroupBuilder.parseText("test"), equalTo(new String[]{"test"}));
+    }
+
+    @Test
+    public void parseTwoWordsShouldReturnArrayContainingThoseWords() {
+        assertThat(ConditionGroupBuilder.parseText("test again"), equalTo(new String[]{"test", "again"}));
+    }
+
+    @Test
+    public void parseTwoWordsSeparatedByCommaShouldReturnArrayContainingThoseWords() {
+        assertThat(ConditionGroupBuilder.parseText("test, again"), equalTo(new String[]{"test", "again"}));
+    }
+
+    @Test
+    public void parseSinglePhraseShouldReturnThatPhrase() {
+        assertThat(ConditionGroupBuilder.parseText("\"test again\""), equalTo(new String[] {"test again"}));
+    }
+
+    @Test
+    public void parseSinglePhraseContainingCommaShouldReturnThatPhrase() {
+        assertThat(ConditionGroupBuilder.parseText("\"test, again\""), equalTo(new String[] {"test, again"}));
+    }
+
+    @Test
+    public void parsePhraseContainingCommaFollowedByWordShouldReturnThatPhraseAndWord() {
+        assertThat(ConditionGroupBuilder.parseText("\"test, again\", sometime"), equalTo(new String[] {"test, again", "sometime"}));
+    }
 
     public static TypeSafeMatcher<Condition> withText(final String expectedText) {
         return new TypeSafeMatcher<Condition>() {
