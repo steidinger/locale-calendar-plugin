@@ -23,7 +23,7 @@
                 android:name=".EditConditionActivity"
                 android:label="@string/setting_name"
                 android:icon="@drawable/calendar"
-                android:exported="true" >
+                android:exported="true">
 <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

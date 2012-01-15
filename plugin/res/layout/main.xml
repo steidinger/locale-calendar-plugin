@@ -31,6 +31,8 @@
                   android:text="@string/inclusion_prompt"/>
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
+                  android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/inclusions"/>
         <TextView android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
@@ -38,6 +40,8 @@
                   android:text="@string/exclusion_prompt"/>
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
+                  android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/exclusions"/>
         <TextView android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
@@ -45,6 +49,8 @@
                   android:text="@string/location_inclusion_prompt"/>
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
+                  android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/location_inclusions"/>
         <TextView android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
@@ -52,6 +58,8 @@
                   android:text="@string/location_exclusion_prompt"/>
         <EditText android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
+                  android:textColor="#000"
+                  android:background="@android:drawable/edit_text"
                   android:id="@+id/location_exclusions"/>
         <LinearLayout android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
@@ -62,10 +70,19 @@
                       android:layout_marginRight="10dp"
                       android:textSize="10pt"
                       android:text="@string/lead_time"/>
-            <Spinner android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     android:prompt="@string/lead_time"
-                     android:id="@+id/leadTimeSpinner"/>
+            <EditText android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:layout_weight="1"
+                      android:inputType="number"
+                      android:gravity="right"
+                      android:textColor="#000"
+                      android:background="@android:drawable/edit_text"
+                      android:id="@+id/leadTime"/>
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:text="min"
+                      android:textSize="10pt"
+                    />
         </LinearLayout>
         <LinearLayout android:layout_height="wrap_content"
                       android:layout_width="fill_parent"
