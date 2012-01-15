@@ -14,6 +14,7 @@
 
 package org.acm.steidinger.calendar;
 
+import org.acm.steidinger.calendar.conditions.TimeCondition;
 import org.acm.steidinger.calendar.conditions.TitleDoesContainText;
 import org.junit.Test;
 
@@ -37,6 +38,39 @@ public class ConditionGroupTest {
         group.conditions.add(new TitleDoesContainText("other"));
 
         assertThat(group.matches(entry("just a test")), equalTo(false));
+    }
+
+    @Test
+    public void leadTimeWithoutTimeConditionShouldBeOneDay() {
+        ConditionGroup group = new ConditionGroup();
+        
+        assertThat(group.getLeadTimeInDays(), equalTo(1));
+    }
+    
+    @Test
+    public void leadTimeInDaysWithTimeConditionHavingLeadTime15MinutesShouldBeOneDay() {
+        ConditionGroup group = new ConditionGroup();
+        group.conditions.add(new TimeCondition(15));
+
+        assertThat(group.getLeadTimeInDays(), equalTo(1));
+    }
+    
+    @Test
+    public void leadTimeInDaysWithTimeConditionHavingLeadTime1440MinutesShouldBeTwoDays() {
+        ConditionGroup group = new ConditionGroup();
+        int dayInMinutes = 1440;
+        group.conditions.add(new TimeCondition(dayInMinutes));
+
+        assertThat(group.getLeadTimeInDays(), equalTo(2));
+    }
+
+    @Test
+    public void leadTimeInDaysWithTimeConditionHavingLeadTimeGreater1440MinutesShouldBeTwoDays() {
+        ConditionGroup group = new ConditionGroup();
+        int dayInMinutes = 1440;
+        group.conditions.add(new TimeCondition(dayInMinutes + 1));
+
+        assertThat(group.getLeadTimeInDays(), equalTo(2));
     }
 
     private CalendarEntry entry(String text) {
