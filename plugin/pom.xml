@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.acm.steidinger</groupId>
         <artifactId>android-calendar-plugin2-parent</artifactId>
-        <version>0.8.1a</version>
+        <version>0.8.3</version>
     </parent>
     <artifactId>android-calendar-plugin</artifactId>
     <packaging>apk</packaging>
