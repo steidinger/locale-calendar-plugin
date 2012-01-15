@@ -64,8 +64,9 @@ public class QueryConditionReceiver extends BroadcastReceiver {
         if (ids == null || ids.isEmpty()) {
             return;
         }
-        List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, ids);
-        debug(String.format("Checking %d calendar entries", entries.size()));
+        int leadTimeInDays = condition.getLeadTimeInDays();
+        List<CalendarEntry> entries = CalendarProvider.getNextCalendarEntries(context, ids, leadTimeInDays);
+        debug(String.format("Checking %d calendar entries for lead time %d days", entries.size(), leadTimeInDays));
         boolean isBooked = condition.anyMatch(entries);
         if (checkIfBooked && isBooked) {
             debug("Found calendar entry -> Condition true");

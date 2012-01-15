@@ -5,7 +5,7 @@ import org.acm.steidinger.calendar.Condition;
 
 public class TimeCondition implements Condition {
     private static final long MINUTE_IN_MILLIS = 60 * 1000;
-    private final long leadTimeInMillis;
+    public final long leadTimeInMillis;
 
     public TimeCondition(int leadTimeInMinutes) {
         this.leadTimeInMillis = leadTimeInMinutes * MINUTE_IN_MILLIS;
