@@ -91,7 +91,7 @@ public class ConditionGroupBuilder {
     }
 
     protected static String[] parseText(String words) {
-        if (words.isEmpty()) {
+        if (words == null || "".equals(words)) {
             return new String[] {""};
         }
         return new Parser(words).parse();
