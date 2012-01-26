@@ -73,8 +73,9 @@ public class CalendarProvider {
         long now = new Date().getTime();
         Cursor eventCursor = CalendarContract.Instances.query(context.getContentResolver(),
                 new String[]{CalendarContract.Instances.TITLE,
-                        CalendarContract.Instances.DTSTART,
-                        CalendarContract.Instances.DTEND,
+                        CalendarContract.Instances.BEGIN,
+                        CalendarContract.Instances.END,
+                        CalendarContract.Instances.DURATION,
                         CalendarContract.Instances.ALL_DAY,
                         CalendarContract.Instances.CALENDAR_ID,
                         CalendarContract.Instances.EVENT_LOCATION,
@@ -88,8 +89,8 @@ public class CalendarProvider {
                 while (eventCursor.moveToNext()) {
 
                     CalendarEntry entry = new CalendarEntry(eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.CALENDAR_ID)),
-                            eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.DTSTART)),
-                            eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.DTEND)),
+                            eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.BEGIN)),
+                            eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.END)),
                             eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.TITLE)),
                             eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.DESCRIPTION)),
                             eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.EVENT_LOCATION)),

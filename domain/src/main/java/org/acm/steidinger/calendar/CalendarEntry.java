@@ -41,6 +41,6 @@ public class CalendarEntry {
 
     @Override
     public String toString() {
-        return (begin == null ? "n/a" : begin.toString()) + " - " + (end == null ? "n/a" : end.toString()) + ": " + title;
+        return begin.toString() + " - " + end.toString() + ": " + title;
     }
 }
