@@ -21,6 +21,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.Log;
 import org.acm.steidinger.calendar.localePlugin.Constants;
 
 import java.util.ArrayList;
@@ -105,8 +106,13 @@ public class CalendarProvider {
                             eventCursor.getString(eventCursor.getColumnIndex("eventLocation")),
                             eventCursor.getInt(eventCursor.getColumnIndex("allDay")),
                             eventCursor.getInt(eventCursor.getColumnIndex("transparency")));
+                    Log.d(Constants.LOG_TAG, "got calendar entry " + entry);
                     if (calendarIds.contains(entry.calendarID)) {
+                        debug("Entry belongs to selected calendars");
                         entries.add(entry);
+                    }
+                    else {
+                        debug("Entry ignored, does not belong to selected calendars");
                     }
                 }
             } finally {
@@ -135,5 +141,11 @@ public class CalendarProvider {
         time.setToNow();
         time.set(0, 0, 0, time.monthDay, time.month, time.year);
         return time.toMillis(false);
+    }
+
+    private static void debug(final String msg) {
+        if (Constants.IS_LOGGABLE) {
+            Log.d(Constants.LOG_TAG, msg);
+        }
     }
 }
