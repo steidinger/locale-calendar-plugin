@@ -41,9 +41,7 @@ public class CalendarProvider {
             try {
                 while (cursor.moveToNext()) {
                     CalendarInfo calendarInfo = new CalendarInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2));
-                    if (calendarInfo.selected) {
-                        calendars.add(calendarInfo);
-                    }
+                    calendars.add(calendarInfo);
                 }
             } finally {
                 cursor.close();
