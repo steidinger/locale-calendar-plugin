@@ -20,6 +20,7 @@ import android.text.format.Time;
 import android.util.Log;
 import org.acm.steidinger.calendar.localePlugin.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -73,6 +74,8 @@ public class CalendarProvider {
         long now = new Date().getTime();
         Cursor eventCursor = CalendarContract.Instances.query(context.getContentResolver(),
                 new String[]{CalendarContract.Instances.TITLE,
+                        CalendarContract.Instances.DTSTART,
+                        CalendarContract.Instances.DTEND,
                         CalendarContract.Instances.BEGIN,
                         CalendarContract.Instances.END,
                         CalendarContract.Instances.DURATION,
@@ -87,7 +90,7 @@ public class CalendarProvider {
         if (eventCursor != null) {
             try {
                 while (eventCursor.moveToNext()) {
-
+//                    dump(eventCursor);
                     CalendarEntry entry = new CalendarEntry(eventCursor.getString(eventCursor.getColumnIndex(CalendarContract.Instances.CALENDAR_ID)),
                             eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.BEGIN)),
                             eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Instances.END)),
@@ -110,6 +113,27 @@ public class CalendarProvider {
             }
         }
         return entries;
+    }
+
+    private static void dump(Cursor cursor) {
+        StringBuilder s = new StringBuilder();
+        String columnName;
+        String value;
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        for (int i = 0; i < cursor.getColumnCount(); i++) {
+            columnName = cursor.getColumnName(i);
+            value = cursor.getString(i);
+            if (columnName.equals(CalendarContract.Instances.DTSTART) 
+                    || columnName.equals(CalendarContract.Instances.DTEND) 
+                    || columnName.equals(CalendarContract.Instances.BEGIN) 
+                    || columnName.equals(CalendarContract.Instances.END)) {
+                if (value != null) {
+                    value = format.format(new Date(cursor.getLong(i)));
+                }
+            }
+            s.append(columnName).append("=").append(value).append("\n");
+        }
+        Log.d(Constants.LOG_TAG, s.toString());
     }
 
     private static List<CalendarInfo> getDummyCalendars() {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.acm.steidinger.calendar.localePlugin"
-      android:versionCode="203"
-      android:versionName="0.8.5-ics">
+      android:versionCode="204"
+      android:versionName="0.8.6-ics">
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="14" />
 
